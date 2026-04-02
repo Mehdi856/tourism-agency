@@ -12,7 +12,7 @@ CREATE TABLE customer (
     id BIGSERIAL PRIMARY KEY,
     fullname TEXT,
     phonnum BIGINT,
-    email TEXT,
+    email TEXT UNIQUE,
     birthdate DATE
 );
 
@@ -24,6 +24,7 @@ CREATE TABLE trip (
     price MONEY,
     places INT,
     date DATERANGE,-- using daterange to store the start and end date of the trip
+    visual boolean, -- to determine if the trip is suggested to the customers or not
     media TEXT[] -- array of media links with out using claudinary or any other media hosting service
 );
 
@@ -32,5 +33,6 @@ CREATE TABLE reservation (
     customer_id BIGINT NOT NULL REFERENCES customer(id),
     trip_id BIGINT NOT NULL REFERENCES trip(id),
     confirmation BOOLEAN,
+    transaction_code TEXT UNIQUE,
     PRIMARY KEY (customer_id, trip_id)
 );
