@@ -219,6 +219,17 @@ async def cancel_reservation(transaction_code: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+#get all visual trips for frontend display
+@app.get("/visual_trips")    
+async def visualize_trips():
+    try:
+        resp = supabase.table("trip").select("*").eq("visual", True).execute()
+        return resp.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+
 
 if __name__ == "__main__":
     import uvicorn
