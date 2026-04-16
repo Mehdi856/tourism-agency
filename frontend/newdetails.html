@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakeMYtrip - Positano, Italy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav>
+  <div class="logo">
+    <img src="logo.jpg" alt="Make My Trip Logo" width="300">
+</div>
+  <div class="nav-links">
+    <a href="#">Flights</a>
+    <a href="#">Hotels</a>
+    <a href="#" class="active">Your Trip</a>
+  </div>
+</nav>
+
+<!-- ========== HERO BANNER ========== -->
+<div class="hero-banner">
+  <img src="https://pohcdn.com/sites/default/files/styles/paragraph__live_banner__lb_image__1880bp/public/live_banner/positano.jpg" alt="Positano Italy">
+  <div class="hero-banner-overlay"></div>
+  <div class="hero-banner-label">
+    <div class="trip-summary-tag">&#9992; Trip Summary</div>
+    <h1>Positano, Italy</h1>
+    <p>8 Days / 7 Nights &nbsp;&middot;&nbsp; 2 Adults</p>
+  </div>
+</div>
+
+<!-- ========== MAIN CONTENT ========== -->
+<div class="page-content">
+  <div class="left-col">
+
+    <!-- FLIGHT CARD -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <svg class="card-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
+          </svg>
+          Flight Details
+        </div>
+        <span class="confirmed-badge">CONFIRMED</span>
+      </div>
+
+      <!-- Outbound Flight -->
+      <div class="flight-row">
+        <div class="airline-logo">AZ</div>
+        <div class="flight-info">
+          <div class="airline-name">Alitalia</div>
+          <div class="flight-code">AZ 204 &middot; Economy</div>
+        </div>
+        <div class="flight-times">
+          <div class="flight-time">
+            <div class="time">10:45</div>
+            <div class="airport">LHR &middot; London</div>
+          </div>
+          <div class="flight-arrow">
+            <div class="flight-duration">2h 15m</div>
+            <div class="arrow-line"></div>
+            <div class="flight-stops">Direct</div>
+          </div>
+          <div class="flight-time">
+            <div class="time">14:30</div>
+            <div class="airport">NAP &middot; Naples</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Return Flight -->
+      <div class="flight-row">
+        <div class="airline-logo">AZ</div>
+        <div class="flight-info">
+          <div class="airline-name">Alitalia</div>
+          <div class="flight-code">AZ 205 &middot; Economy</div>
+        </div>
+        <div class="flight-times">
+          <div class="flight-time">
+            <div class="time">16:15</div>
+            <div class="airport">NAP &middot; Naples</div>
+          </div>
+          <div class="flight-arrow">
+            <div class="flight-duration">2h 55m</div>
+            <div class="arrow-line"></div>
+            <div class="flight-stops">Direct</div>
+          </div>
+          <div class="flight-time">
+            <div class="time">18:10</div>
+            <div class="airport">LHR &middot; London</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOTEL CARD -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <svg class="card-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Accommodation
+        </div>
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="hotel-card">
+        <img class="hotel-img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&q=80" alt="Le Sirenuse Positano">
+        <div class="hotel-info">
+          <div class="hotel-name">Le Sirenuse Positano</div>
+          <div class="hotel-address">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Via Cristoforo Colombo, 30, 84017 Positano SA
+          </div>
+          <div class="hotel-feature">
+            <div class="hotel-feature-icon">&#128716;</div>
+            <div>
+              <div class="hotel-feature-text">Deluxe Sea View Room</div>
+              <div class="hotel-feature-sub">King bed, Private terrace, Marble bathroom with high-end amenities</div>
+            </div>
+          </div>
+          <div class="hotel-feature">
+            <div class="hotel-feature-icon">&#127869;</div>
+            <div>
+              <div class="hotel-feature-text">Breakfast Included</div>
+              <div class="hotel-feature-sub">Full Italian buffet at the Michelin-starred La Sponda restaurant</div>
+            </div>
+          </div>
+          <div class="hotel-amenities">
+            <div class="amenity">&#9854; Infinity Pool</div>
+            <div class="amenity amenity--gap">&#128134; Luxury Spa</div>
+            <div class="amenity amenity--gap">&#128246; High-speed WiFi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.left-col -->
+
+  <!-- PRICE SIDEBAR -->
+  <div class="price-card">
+    <h3>Price Summary</h3>
+    <div class="price-row">
+      <span class="label">Flights (2 Adults)</span>
+      <span class="amount">&euro;840.00</span>
+    </div>
+    <div class="price-row">
+      <span class="label">Hotel (7 Nights)</span>
+      <span class="amount">&euro;3,640.00</span>
+    </div>
+    <div class="price-row">
+      <span class="label">Airport Transfers</span>
+      <span class="included">INCLUDED</span>
+    </div>
+    <div class="price-row">
+      <span class="label">Taxes &amp; Fees</span>
+      <span class="amount">&euro;370.00</span>
+    </div>
+    <hr class="price-divider">
+    <div class="price-total">
+      <span class="label">Total<br>Price</span>
+      <span class="total-amount">&euro;4,850.00</span>
+    </div>
+    <div class="price-total-sub">All inclusive for 2 people</div>
+    <button class="btn-confirm">Confirm Selection</button>
+    <div class="guarantee">&#10003; Best Price Guarantee</div>
+    <div class="cancellation-note">
+      <span class="info-icon">&#8505;</span>
+      <span>Flexible cancellation until 48 hours before departure. Premium travel insurance options available at checkout.</span>
+    </div>
+  </div>
+
+</div><!-- /.page-content -->
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Make MY trip</h4>
+      <p>Crafting bespoke travel narratives for the curious wanderer. Experience the world through our editorial lens and premium service.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Editorial Team</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Cookie Settings</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact Specialist</a></li>
+        <li><a href="#">Travel Safety</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&#169; 2026 Make MY trip. An Editorial Travel Experience.</p>
+    <div class="footer-bottom-right">
+      <span class="footer-lang">&#127760; English (US)</span>
+      <span class="footer-lang">&#128182; EUR (&euro;)</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
