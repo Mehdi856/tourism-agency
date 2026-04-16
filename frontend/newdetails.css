@@ -1,0 +1,602 @@
+/* =============================================
+   MakeMYtrip – Positano Trip Page Stylesheet
+   style.css
+   ============================================= */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --blue:        #1A6FE8;
+  --blue-dark:   #1358C0;
+  --text:        #1a1a2e;
+  --muted:       #6b7280;
+  --light:       #f5f7fb;
+  --white:       #ffffff;
+  --border:      #e5e7eb;
+  --shadow:      0 4px 24px rgba(26, 111, 232, 0.10);
+  --orange:      #f59e0b;
+}
+
+/* ---------- Body ---------- */
+body {
+  font-family: "DM Sans", sans-serif;
+  color: var(--text);
+  background: #f0f2f5;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding-bottom: 4px;
+}
+
+.nav-links a:hover {
+  color: var(--blue);
+}
+
+.nav-links a.active {
+  color: var(--blue);
+  border-bottom: 2px solid var(--blue);
+  font-weight: 600;
+}
+
+/* =============================================
+   HERO BANNER
+   ============================================= */
+.hero-banner {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+}
+
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.10) 60%,
+    transparent 100%
+  );
+}
+
+.hero-banner-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 48px;
+}
+
+.trip-summary-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.hero-banner-label h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.hero-banner-label p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* =============================================
+   PAGE CONTENT LAYOUT
+   ============================================= */
+.page-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  padding: 32px 48px;
+  align-items: start;
+}
+
+.left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* =============================================
+   CARDS (shared)
+   ============================================= */
+.card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.card-title-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+}
+
+.confirmed-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 3px 10px;
+  letter-spacing: 0.5px;
+}
+
+/* =============================================
+   FLIGHT CARD
+   ============================================= */
+.flight-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.flight-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.airline-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f5f7fb;
+  padding: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.flight-info {
+  flex: 1;
+}
+
+.airline-name {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.flight-code {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.flight-times {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 2;
+}
+
+.flight-time {
+  text-align: center;
+}
+
+.flight-time .time {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.flight-time .airport {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.flight-arrow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow-line {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+}
+
+.arrow-line::after {
+  content: "▶";
+  position: absolute;
+  right: -6px;
+  top: -8px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.flight-duration {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.flight-stops {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* =============================================
+   HOTEL / ACCOMMODATION CARD
+   ============================================= */
+.stars {
+  color: var(--orange);
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.hotel-card {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.hotel-img {
+  width: 120px;
+  height: 110px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.hotel-info {
+  flex: 1;
+}
+
+.hotel-name {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.hotel-address {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hotel-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.hotel-feature-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+.hotel-feature-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.hotel-feature-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.hotel-amenities {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.amenity {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Extra margin variant used on 2nd and 3rd amenity */
+.amenity--gap {
+  margin-left: 12px;
+}
+
+/* =============================================
+   PRICE SIDEBAR CARD
+   ============================================= */
+.price-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 80px;
+}
+
+.price-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.price-row .label {
+  color: var(--muted);
+}
+
+.price-row .amount {
+  font-weight: 600;
+}
+
+.price-row .included {
+  font-size: 10px;
+  font-weight: 700;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+.price-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 6px;
+}
+
+.price-total .label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.price-total .total-amount {
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1;
+}
+
+.price-total-sub {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-confirm {
+  width: 100%;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  transition: background 0.2s;
+  margin-bottom: 12px;
+}
+
+.btn-confirm:hover {
+  background: var(--blue-dark);
+}
+
+.guarantee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #15803d;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.cancellation-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  background: var(--light);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.cancellation-note .info-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 48px 48px 24px;
+  margin-top: 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.footer-col p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover {
+  color: var(--blue);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-bottom p {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.footer-bottom-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.footer-lang {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
