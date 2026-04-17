@@ -1,0 +1,329 @@
+/* ============================================================
+   MakeMYtrip — Payment / Checkout Page Styles
+   payment.css  (imports shared.css)
+   ============================================================ */
+
+body {
+  background: #e8eef8;
+  min-height: 100vh;
+  max-width: none;
+}
+
+/* ---------- Nav override ---------- */
+nav {
+  padding: 0 72px;
+  height: 72px;
+  background: var(--nav-bg);
+  border-bottom: none;
+  box-shadow: 0 2px 16px rgba(13, 43, 94, 0.25);
+}
+
+.logo img { height: 38px; filter: brightness(1.05); }
+
+.nav-links a {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a.active { color: #fff; border-bottom-color: #5b9ef5; }
+.nav-links a:hover  { color: #fff; }
+
+/* ---------- Page Content ---------- */
+.page-content {
+  flex: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 60px 72px 80px;
+}
+
+.sec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: #2272d9;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-family: "DM Serif Display", serif;
+  font-size: 48px;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.65;
+  margin-bottom: 48px;
+}
+
+/* ---------- Two Columns ---------- */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ---------- Payment Card ---------- */
+.card {
+  border: 1px solid #d0ddf0;
+  border-radius: 16px;
+  padding: 40px 40px 44px;
+  background: var(--white);
+  box-shadow: 0 2px 20px rgba(26, 95, 187, 0.07);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.card-header h2 { font-size: 18px; font-weight: 700; color: var(--text); }
+
+/* ---------- Form Fields ---------- */
+.field-error {
+  display: block;
+  font-size: 11.5px;
+  color: #e03535;
+  margin-top: 6px;
+  min-height: 16px;
+  font-weight: 500;
+}
+
+.field input.invalid { border-color: #e03535; background: #fff5f5; }
+.field input.valid   { border-color: #16a34a; }
+
+.field { margin-bottom: 24px; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1.5px solid #d0ddf0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  background: #f0f5ff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.field input::placeholder { color: #a8b8d0; }
+
+.field input:focus {
+  border-color: #1a5fbb;
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(26, 95, 187, 0.12);
+}
+
+/* ---------- Card Number ---------- */
+.card-number-wrap { position: relative; }
+.card-number-wrap input { padding-right: 130px; }
+
+.card-badges {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.card-badges span {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border: 1px solid #d0ddf0;
+  border-radius: 5px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* ---------- Pay Button ---------- */
+.pay-btn {
+  width: 100%;
+  padding: 18px;
+  background: #1a5fbb;
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(26, 95, 187, 0.32);
+}
+
+.pay-btn:hover {
+  background: #1558d6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(26, 95, 187, 0.40);
+}
+
+.pay-btn:active { transform: translateY(0); }
+
+/* ---------- Trust Row ---------- */
+.trust-row { display: flex; gap: 28px; margin-top: 28px; }
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ---------- Summary Card ---------- */
+.summary-card {
+  border: 1px solid #d0ddf0;
+  border-radius: 16px;
+  overflow: hidden;
+  position: sticky;
+  top: 96px;
+  background: var(--white);
+  box-shadow: 0 2px 20px rgba(26, 95, 187, 0.07);
+}
+
+.trip-image { position: relative; height: 180px; overflow: hidden; }
+.trip-image > div { width: 100%; height: 100%; }
+
+.trip-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 55%);
+}
+
+.trip-label  { position: absolute; bottom: 14px; left: 18px; color: var(--white); }
+.trip-label h3 { font-size: 18px; font-weight: 700; }
+.trip-label p  { font-size: 13px; opacity: 0.88; margin-top: 2px; }
+
+.summary-body { padding: 22px 22px 24px; }
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.summary-row .label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+
+.summary-row .value { font-size: 14px; color: var(--text); font-weight: 600; }
+
+.divider { height: 1px; background: #d0ddf0; margin: 16px 0; }
+
+.flight-row-pay { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+.flight-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.flight-info-pay strong { display: block; color: var(--text); font-size: 14px; font-weight: 600; }
+.flight-info-pay span  { color: var(--muted); font-size: 12px; margin-top: 2px; display: block; }
+
+.summary-price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.summary-price-row .label { color: var(--muted); }
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.total-row .label  { font-size: 15px; font-weight: 700; color: var(--text); }
+.total-row .amount { font-size: 26px; font-weight: 700; color: #1a5fbb; }
+
+.info-note {
+  background: #ddeaff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.info-note svg { flex-shrink: 0; margin-top: 2px; }
+.info-note p   { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+/* ---------- Footer override ---------- */
+footer {
+  border-top: 1px solid #d0ddf0;
+  padding: 28px 72px 32px;
+  text-align: center;
+  background: var(--nav-bg);
+}
+
+.footer-brand { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.footer-brand span { color: #2272d9; }
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: #fff; }
+.copy { font-size: 12px; color: rgba(255, 255, 255, 0.35); margin-top: 4px; }

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakeMYtrip - Experience Italy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="../css/search.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav>
+  <div class="logo">
+    <img src="https://via.placeholder.com/150x48/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="search.html" class="active">Search</a>
+    <a href="#">Flights</a>
+  </div>
+</nav>
+
+<!-- ========== MAIN LAYOUT ========== -->
+<div class="main-layout">
+
+  <!-- SIDEBAR FILTERS -->
+  <aside class="sidebar">
+
+    <!-- Price Range -->
+    <div class="filter-section">
+      <div class="filter-title">
+        Price Range
+        <button onclick="clearFilters()">Clear All</button>
+      </div>
+      <div class="price-slider-wrap">
+        <div class="price-display">
+          <span class="price-val" id="price-min-label">€0</span>
+          <span class="price-sep">–</span>
+          <span class="price-val" id="price-max-label">€12,000+</span>
+        </div>
+        <div class="range-slider-container">
+          <div class="slider-track"></div>
+          <div class="slider-fill"></div>
+          <input type="range" class="range-input" id="range-min" min="0" max="20000" value="0" step="100">
+          <input type="range" class="range-input" id="range-max" min="0" max="20000" value="20000" step="100">
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotel Rating -->
+    <div class="filter-section">
+      <div class="filter-title">Hotel Rating</div>
+      <div class="rating-options">
+        <div class="rating-option selected" data-rating="5" onclick="toggleRating(this)">
+          <span class="rating-stars">★★★★★</span>
+          <span class="rating-label">5★ Luxury</span>
+        </div>
+        <div class="rating-option" data-rating="4" onclick="toggleRating(this)">
+          <span class="rating-stars">★★★★</span>
+          <span class="rating-label">4★ Premium</span>
+        </div>
+        <div class="rating-option" data-rating="boutique" onclick="toggleRating(this)">
+          <span class="rating-stars">🏛</span>
+          <span class="rating-label">Boutique &amp; Heritage</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip Type -->
+    <div class="filter-section">
+      <div class="filter-title">Trip Type</div>
+      <div class="type-chips">
+        <div class="type-chip selected" data-type="all" onclick="selectType(this)">All</div>
+        <div class="type-chip" data-type="cultural" onclick="selectType(this)">Cultural</div>
+        <div class="type-chip" data-type="coastal" onclick="selectType(this)">Coastal</div>
+        <div class="type-chip" data-type="romantic" onclick="selectType(this)">Romantic</div>
+        <div class="type-chip" data-type="adventure" onclick="selectType(this)">Adventure</div>
+        <div class="type-chip" data-type="luxury" onclick="selectType(this)">Luxury</div>
+      </div>
+    </div>
+
+    <!-- Flight Preferences -->
+    <div class="filter-section">
+      <div class="filter-title">Flight Preferences</div>
+      <div class="flight-options">
+        <div class="flight-option selected" data-flight="direct" onclick="selectFlight(this)">
+          <span class="flight-option-icon">✈️</span> Direct Flights Only
+        </div>
+        <div class="flight-option" data-flight="business" onclick="selectFlight(this)">
+          <span class="flight-option-icon">💺</span> Business Class
+        </div>
+        <div class="flight-option" data-flight="any" onclick="selectFlight(this)">
+          <span class="flight-option-icon">🌐</span> Any Flight
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- RESULTS COLUMN -->
+  <div class="results-col">
+
+    <!-- Search bar -->
+    <div class="search-bar-wrapper" style="padding: 0 0 24px;">
+      <div class="search-bar">
+        <div class="search-pill">
+          <span class="icon">📍</span>
+          <div>
+            <div class="label">Destination</div>
+            <div class="value">Italy</div>
+          </div>
+        </div>
+        <div class="search-pill">
+          <span class="icon">📅</span>
+          <div>
+            <div class="label">Dates</div>
+            <div class="value">Sep 15 – Sep 21</div>
+          </div>
+        </div>
+        <div class="search-pill">
+          <span class="icon">👤</span>
+          <div>
+            <div class="label">Travellers</div>
+            <div class="value">2 Adults</div>
+          </div>
+        </div>
+        <button class="search-go">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          Search
+        </button>
+      </div>
+    </div>
+
+    <!-- Results header -->
+    <div class="results-header">
+      <div>
+        <div class="results-title">Experience Italy</div>
+        <div class="results-count-text">Found <strong id="results-count">0</strong> curated packages</div>
+      </div>
+      <select class="sort-select" id="sort-select">
+        <option value="recommended">Recommended</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Rating</option>
+        <option value="duration">Duration</option>
+      </select>
+    </div>
+
+    <!-- Active filter tags -->
+    <div class="active-filters" id="active-filters"></div>
+
+    <!-- Cards -->
+    <div id="cards-container"></div>
+
+    <!-- No results -->
+    <div class="no-results" id="no-results">
+      <div class="no-results-icon">🔍</div>
+      <h3>No packages found</h3>
+      <p>Try adjusting your filters to discover more experiences</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>MakeMYtrip</h4><p>Curated travel experiences for the discerning traveller.</p></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&#169; 2026 MakeMYtrip Inc. All rights reserved.</p>
+    <div class="social-links"><a href="#">f</a><a href="#">in</a><a href="#">tw</a></div>
+  </div>
+</footer>
+
+<script src="../js/search.js"></script>
+</body>
+</html>

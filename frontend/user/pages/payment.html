@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakeMYtrip – Secure Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="../css/payment.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav>
+  <div class="logo">
+    <img src="https://via.placeholder.com/150x38/ffffff/1A6FE8?text=MakeMYtrip" alt="MakeMYtrip Logo">
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Destinations</a>
+    <a href="booking.html">Bookings</a>
+    <a href="details.html" class="active">Checkout</a>
+  </div>
+</nav>
+
+<!-- ========== PAGE CONTENT ========== -->
+<div class="page-content">
+
+  <div class="sec-badge">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+    Bank-Level Security
+  </div>
+
+  <h1>Secure Checkout</h1>
+  <p class="subtitle">Your journey is just one step away. Your payment details are encrypted and processed through our secure editorial concierge.</p>
+
+  <div class="columns">
+
+    <!-- LEFT: Payment form -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Credit Card Payment</h2>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+      </div>
+
+      <!-- Cardholder Name -->
+      <div class="field">
+        <label>Cardholder's Name</label>
+        <input id="inp-name" type="text" placeholder="Full Name" autocomplete="cc-name">
+        <span class="field-error" id="err-name"></span>
+      </div>
+
+      <!-- Card Number -->
+      <div class="field">
+        <label>Card Number</label>
+        <div class="card-number-wrap">
+          <input id="inp-card" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
+          <div class="card-badges">
+            <span>VISA</span>
+            <span>MASTERCARD</span>
+          </div>
+        </div>
+        <span class="field-error" id="err-card"></span>
+      </div>
+
+      <!-- Expiry + CVV -->
+      <div class="row-2">
+        <div class="field">
+          <label>Expiration Date</label>
+          <input id="inp-expiry" type="text" inputmode="numeric" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+          <span class="field-error" id="err-expiry"></span>
+        </div>
+        <div class="field">
+          <label>CVV &nbsp;&#9432;</label>
+          <input id="inp-cvv" type="password" inputmode="numeric" placeholder="• • •" maxlength="3" autocomplete="cc-csc">
+          <span class="field-error" id="err-cvv"></span>
+        </div>
+      </div>
+
+      <!-- Pay button -->
+      <button class="pay-btn" onclick="validateAndPay()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Pay &euro;4,850.00
+      </button>
+
+      <!-- Trust badges -->
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          SSL Secure
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          PCI Compliant
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Trusted Provider
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Order summary -->
+    <div class="summary-card">
+      <div class="trip-image">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A6FE8 0%,#0d2b5e 100%);display:flex;align-items:center;justify-content:center;">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1">
+            <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
+          </svg>
+        </div>
+        <div class="trip-image-overlay"></div>
+        <div class="trip-label">
+          <h3>Positano, Italy</h3>
+          <p>8 Days &middot; 2 Adults</p>
+        </div>
+      </div>
+
+      <div class="summary-body">
+        <div class="summary-row">
+          <div>
+            <div class="label">Duration</div>
+            <div class="value">8 Days / 7 Nights</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="label">Travellers</div>
+            <div class="value">2 Adults</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="flight-row-pay">
+          <div class="flight-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A6FE8" stroke-width="2">
+              <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
+            </svg>
+          </div>
+          <div class="flight-info-pay">
+            <strong>Economy Class Flights</strong>
+            <span>Alitalia &middot; Direct Route LHR–NAP</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="summary-price-row">
+          <span class="label">Flights (2 Adults)</span>
+          <span>&euro;840.00</span>
+        </div>
+        <div class="summary-price-row">
+          <span class="label">Hotel (7 Nights)</span>
+          <span>&euro;3,640.00</span>
+        </div>
+        <div class="summary-price-row">
+          <span class="label">Taxes &amp; Fees</span>
+          <span>&euro;370.00</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="total-row">
+          <span class="label">Total Amount</span>
+          <span class="amount">&euro;4,850.00</span>
+        </div>
+
+        <div class="info-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A6FE8" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <p>Free cancellation until 48 hours before the trip. Our 24/7 concierge support is included with your premium Italy booking.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-brand">Make <span>MY</span> trip</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Security Standards</a>
+    <a href="#">Trust Badges</a>
+  </div>
+  <p class="copy">&#169; 2026 Make MY trip. Secure Editorial Concierge.</p>
+</footer>
+
+<script src="../js/payment.js"></script>
+</body>
+</html>

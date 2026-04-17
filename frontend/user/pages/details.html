@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MakeMYtrip - Positano, Italy</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="newdetails.css">
+  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="../css/details.css">
 </head>
 <body>
 
 <!-- ========== NAVBAR ========== -->
 <nav>
   <div class="logo">
-    <img src="logo.jpg" alt="Make My Trip Logo" width="300">
-</div>
+    <img src="https://via.placeholder.com/150x48/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+  </div>
   <div class="nav-links">
-    <a href="#">Flights</a>
-    <a href="#">Hotels</a>
-    <a href="#" class="active">Your Trip</a>
+    <a href="index.html">Home</a>
+    <a href="search.html">Search</a>
+    <a href="details.html" class="active">Your Trip</a>
   </div>
 </nav>
 
@@ -48,7 +49,7 @@
         <span class="confirmed-badge">CONFIRMED</span>
       </div>
 
-      <!-- Outbound Flight -->
+      <!-- Outbound -->
       <div class="flight-row">
         <div class="airline-logo">AZ</div>
         <div class="flight-info">
@@ -72,7 +73,7 @@
         </div>
       </div>
 
-      <!-- Return Flight -->
+      <!-- Return -->
       <div class="flight-row">
         <div class="airline-logo">AZ</div>
         <div class="flight-info">
@@ -170,7 +171,7 @@
       <span class="total-amount">&euro;4,850.00</span>
     </div>
     <div class="price-total-sub">All inclusive for 2 people</div>
-    <button class="btn-confirm">Confirm Selection</button>
+    <button class="btn-confirm" onclick="window.location.href='booking.html'">Confirm Selection</button>
     <div class="guarantee">&#10003; Best Price Guarantee</div>
     <div class="cancellation-note">
       <span class="info-icon">&#8505;</span>
@@ -183,34 +184,10 @@
 <!-- ========== FOOTER ========== -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-col">
-      <h4>Make MY trip</h4>
-      <p>Crafting bespoke travel narratives for the curious wanderer. Experience the world through our editorial lens and premium service.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Editorial Team</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Cookie Settings</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <ul>
-        <li><a href="#">Help Center</a></li>
-        <li><a href="#">Contact Specialist</a></li>
-        <li><a href="#">Travel Safety</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h4>Make MY trip</h4><p>Crafting bespoke travel narratives for the curious wanderer.</p></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Editorial Team</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Cookie Settings</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Contact Specialist</a></li><li><a href="#">Travel Safety</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <p>&#169; 2026 Make MY trip. An Editorial Travel Experience.</p>
@@ -221,5 +198,6 @@
   </div>
 </footer>
 
+<script src="../js/details.js"></script>
 </body>
 </html>

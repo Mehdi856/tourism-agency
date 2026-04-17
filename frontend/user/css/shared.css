@@ -1,0 +1,246 @@
+/* ============================================================
+   MakeMYtrip — Shared Base Styles
+   shared.css
+   ============================================================ */
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --blue:        #1A6FE8;
+  --blue-dark:   #1358C0;
+  --blue-light:  #eff6ff;
+  --text:        #1a1a2e;
+  --muted:       #6b7280;
+  --light:       #f5f7fb;
+  --white:       #ffffff;
+  --border:      #e5e7eb;
+  --shadow:      0 4px 24px rgba(26, 111, 232, 0.10);
+  --orange:      #f59e0b;
+  --green:       #15803d;
+  --green-bg:    #f0fdf4;
+  --green-border:#bbf7d0;
+  --nav-bg:      #0d2b5e;
+  --page-bg:     #f0f2f5;
+}
+
+/* ---------- Body ---------- */
+body {
+  font-family: "DM Sans", sans-serif;
+  color: var(--text);
+  background: var(--page-bg);
+  overflow-x: hidden;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   SHARED NAVBAR
+   ============================================================ */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding-bottom: 4px;
+}
+
+.nav-links a:hover { color: var(--blue); }
+
+.nav-links a.active {
+  color: var(--blue);
+  border-bottom: 2px solid var(--blue);
+  font-weight: 600;
+}
+
+/* ============================================================
+   SHARED FOOTER
+   ============================================================ */
+footer {
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 48px 48px 24px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.footer-col p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.footer-col ul { list-style: none; }
+
+.footer-col ul li { margin-bottom: 8px; }
+
+.footer-col ul li a {
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover { color: var(--blue); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-bottom p {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.footer-bottom-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.footer-lang {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.social-links { display: flex; gap: 12px; }
+
+.social-links a {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.social-links a:hover {
+  background: var(--blue);
+  color: white;
+}
+
+/* ============================================================
+   SHARED BUTTONS
+   ============================================================ */
+.btn-primary {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: var(--blue-dark); }
+
+.btn-ghost {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+  font-family: "DM Sans", sans-serif;
+}
+
+/* ============================================================
+   SHARED CARDS
+   ============================================================ */
+.card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.confirmed-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green);
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  border-radius: 20px;
+  padding: 3px 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakeMYtrip - Travel Agency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav>
+  <div class="logo">
+    <img src="https://via.placeholder.com/150x48/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="search.html">Hotels</a>
+    <a href="search.html">Flights</a>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80" alt="Ocean">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>The Seamless Horizon<br>Awaits.</h1>
+    <p>Experience advanced travel curation where the journey is as effortless as the destination. Your next escape, perfectly choreographed.</p>
+  </div>
+  <div class="search-box">
+    <div class="search-field">
+      <span class="search-label">Where To?</span>
+      <input class="search-input" id="inp-where" type="text" placeholder="City, country or resort...">
+    </div>
+    <div class="search-field">
+      <span class="search-label">Check-in</span>
+      <input class="search-input" id="inp-checkin" type="date">
+    </div>
+    <div class="search-field">
+      <span class="search-label">Check-out</span>
+      <input class="search-input" id="inp-checkout" type="date">
+    </div>
+    <div class="search-field travellers-field" style="position:relative;">
+      <span class="search-label">Travellers &amp; Rooms</span>
+      <input class="search-input" id="inp-travellers" type="text" placeholder="1 Adult, 1 Room" readonly
+             onclick="toggleTravellersDropdown()" style="cursor:pointer;">
+      <div id="travellers-dropdown" class="travellers-dropdown">
+        <div class="dropdown-row">
+          <div><div class="dropdown-label-main">Adults</div><div class="dropdown-label-sub">Age 18+</div></div>
+          <div class="counter-group">
+            <button class="count-btn" onclick="changeCount('adults',-1)">−</button>
+            <span id="count-adults" class="count-display">1</span>
+            <button class="count-btn plus" onclick="changeCount('adults',1)">+</button>
+          </div>
+        </div>
+        <div class="dropdown-row">
+          <div><div class="dropdown-label-main">Children</div><div class="dropdown-label-sub">Age 2–17</div></div>
+          <div class="counter-group">
+            <button class="count-btn" onclick="changeCount('children',-1)">−</button>
+            <span id="count-children" class="count-display">0</span>
+            <button class="count-btn plus" onclick="changeCount('children',1)">+</button>
+          </div>
+        </div>
+        <div class="dropdown-row">
+          <div><div class="dropdown-label-main">Rooms</div></div>
+          <div class="counter-group">
+            <button class="count-btn" onclick="changeCount('rooms',-1)">−</button>
+            <span id="count-rooms" class="count-display">1</span>
+            <button class="count-btn plus" onclick="changeCount('rooms',1)">+</button>
+          </div>
+        </div>
+        <button class="dropdown-done" onclick="toggleTravellersDropdown()">Done</button>
+      </div>
+    </div>
+    <button class="search-btn">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      Search
+    </button>
+  </div>
+</div>
+
+<!-- ========== POPULAR DESTINATIONS ========== -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-title">Popular Destinations</div>
+      <div class="section-sub">Carefully curated escapes for the discerning traveller</div>
+    </div>
+    <a href="search.html" class="view-all">View All Destinations &#8594;</a>
+  </div>
+  <div class="destinations-grid">
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&q=80" alt="Santorini">
+      <div class="dest-label"><h3>Santorini, Greece</h3><p>Mediterranean gem</p></div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80" alt="Tokyo">
+      <div class="dest-label"><h3>Tokyo</h3><p>Japan</p></div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1565967511849-76a60a516170?w=400&q=80" alt="Bali">
+      <div class="dest-label"><h3>Bali</h3><p>Indonesia</p></div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80" alt="Paris">
+      <div class="dest-label"><h3>Paris, France</h3><p>City of Light</p></div>
+    </div>
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1555993539-1732b0258235?w=400&q=80" alt="Maldives">
+      <div class="dest-label"><h3>Maldives</h3><p>Indian Ocean</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LAST MINUTE DEALS ========== -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-title">Last Minute Deals</div>
+      <div class="section-sub">Spontaneous luxury at extraordinarily curated rates</div>
+    </div>
+    <div class="section-nav">
+      <button class="nav-arrow">&#8249;</button>
+      <button class="nav-arrow">&#8250;</button>
+    </div>
+  </div>
+  <div class="cards-row">
+    <div class="deal-card">
+      <img class="deal-img" src="https://images.unsplash.com/photo-1439130490301-25e322d88054?w=400&q=80" alt="Maldives">
+      <div class="deal-body">
+        <div class="deal-badges"><span class="badge">Overwater Villa</span><span class="badge green">5★</span></div>
+        <div class="deal-title">Maldives Overwater Villa</div>
+        <div class="deal-meta"><span>&#128197; 5 nights, 4 days</span></div>
+        <div class="deal-footer"><div class="deal-price">€780<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="deal-card">
+      <img class="deal-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" alt="Swiss Alps">
+      <div class="deal-body">
+        <div class="deal-badges"><span class="badge">Mountain</span></div>
+        <div class="deal-title">Swiss Alps Getaway</div>
+        <div class="deal-meta"><span>&#128197; 5 nights, 4 days</span></div>
+        <div class="deal-footer"><div class="deal-price">€440<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="deal-card">
+      <img class="deal-img" src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80" alt="Vietnam">
+      <div class="deal-body">
+        <div class="deal-badges"><span class="badge">Cultural</span><span class="badge green">Top Pick</span></div>
+        <div class="deal-title">Vietnam Culture Tour</div>
+        <div class="deal-meta"><span>&#128197; 10 nights, 9 days</span></div>
+        <div class="deal-footer"><div class="deal-price">€2,040<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="deal-card">
+      <img class="deal-img" src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=400&q=80" alt="Agra">
+      <div class="deal-body">
+        <div class="deal-badges"><span class="badge">Heritage</span></div>
+        <div class="deal-title">Agra Heritage Escape</div>
+        <div class="deal-meta"><span>&#128197; 4 nights, 3 days</span></div>
+        <div class="deal-footer"><div class="deal-price">€160<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TRIPS TO EUROPE ========== -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-title">Trips to Europe</div>
+      <div class="section-sub">Discover the timeless charm and luxury of the European continent</div>
+    </div>
+    <div class="section-nav">
+      <button class="nav-arrow">&#8249;</button>
+      <button class="nav-arrow">&#8250;</button>
+    </div>
+  </div>
+  <div class="trips-grid">
+    <div class="trip-card">
+      <img class="trip-img" src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&q=80" alt="London">
+      <div class="trip-body">
+        <div class="trip-type">Popular</div>
+        <div class="trip-title">Historic London Stay</div>
+        <div class="trip-location">London, UK</div>
+        <div class="trip-footer"><div class="trip-price">€320<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="trip-card">
+      <img class="trip-img" src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&q=80" alt="Rome">
+      <div class="trip-body">
+        <div class="trip-type">Exclusive</div>
+        <div class="trip-title">Classico Rome Getaway</div>
+        <div class="trip-location">Rome, Italy</div>
+        <div class="trip-footer"><div class="trip-price">€285<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="trip-card">
+      <img class="trip-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&q=80" alt="Paris">
+      <div class="trip-body">
+        <div class="trip-type">Popular</div>
+        <div class="trip-title">Parisian Romance</div>
+        <div class="trip-location">Paris, France</div>
+        <div class="trip-footer"><div class="trip-price">€410<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="trip-card">
+      <img class="trip-img" src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&q=80" alt="Barcelona">
+      <div class="trip-body">
+        <div class="trip-type">Weekend</div>
+        <div class="trip-title">Barcelona City Break</div>
+        <div class="trip-location">Barcelona, Spain</div>
+        <div class="trip-footer"><div class="trip-price">€240<span>/ppt</span></div><button class="btn-book">Book Now</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>MakeMYtrip</h4><p>Experience advanced travel curation where the journey is as effortless as the destination.</p></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Make Popular</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="#">Buyer Guide</a></li><li><a href="#">Blog</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms &amp; Conditions</a></li><li><a href="#">FAQ</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&#169; 2026 MakeMYtrip Inc. All rights reserved.</p>
+    <div class="social-links"><a href="#">f</a><a href="#">in</a><a href="#">tw</a></div>
+  </div>
+</footer>
+
+<script src="../js/index.js"></script>
+</body>
+</html>
