@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — Tourism Agency</title>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body class="login-body">
+
+  <main class="login-layout">
+
+    <!-- Brand -->
+    <div class="login-brand">
+      <div class="login-logo">
+        <img src="img/screen.png" alt="Agency Logo" />
+      </div>
+      <h1>Admin Console</h1>
+      <p class="login-subtitle">SECURE GATEWAY · TOURISM AGENCY</p>
+    </div>
+
+    <!-- Card -->
+    <div class="login-card">
+      <div class="login-card-accent"></div>
+
+      <form class="login-form" id="loginForm" novalidate>
+
+        <!-- Username -->
+        <div class="login-field">
+          <label class="form-label" for="username">Username</label>
+          <div class="input-wrap">
+            <span class="material-symbols-outlined input-icon">person</span>
+            <input
+              class="form-input login-input"
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your administrator ID"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <span class="field-error" id="usernameError"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="login-field">
+          <div class="login-field-header">
+            <label class="form-label" for="password">Password</label>
+            <a href="#" class="forgot-link">Forgot access?</a>
+          </div>
+          <div class="input-wrap">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input
+              class="form-input login-input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••••••"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">
+              <span class="material-symbols-outlined" id="pwIcon">visibility_off</span>
+            </button>
+          </div>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <!-- Remember me -->
+        <div class="remember-row">
+          <label class="remember-label">
+            <input type="checkbox" id="remember" name="remember" />
+            <span class="remember-box"></span>
+            Stay authenticated for 24 hours
+          </label>
+        </div>
+
+        <!-- Error banner (from backend) -->
+        <div class="login-error-banner" id="loginError" style="display:none;">
+          <span class="material-symbols-outlined">warning</span>
+          <span id="loginErrorText">Invalid credentials. Please try again.</span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="login-btn" id="submitBtn">
+          <span id="btnText">Sign In to Dashboard</span>
+          <span class="material-symbols-outlined" id="btnIcon">arrow_forward</span>
+          <span class="login-spinner" id="loginSpinner" style="display:none;"></span>
+        </button>
+
+      </form>
+
+      <!-- Alt auth -->
+      <div class="login-divider">
+        <span>Or authenticate via</span>
+      </div>
+      <div class="alt-auth-grid">
+        <button class="alt-auth-btn" type="button">
+          <span class="material-symbols-outlined">key</span>
+          SSO
+        </button>
+        <button class="alt-auth-btn" type="button">
+          <span class="material-symbols-outlined">fingerprint</span>
+          Biometric
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer meta -->
+    <footer class="login-footer">
+      <span class="login-meta-tag">
+        <span class="material-symbols-outlined">verified_user</span>
+        End-to-End Encrypted
+      </span>
+      <span class="login-meta-tag">
+        <span class="material-symbols-outlined">language</span>
+        Global Nodes Active
+      </span>
+      <p>Authorized personnel only. All access attempts are logged and monitored.</p>
+    </footer>
+  </main>
+
+  <!-- Decorative background icon -->
+  <div class="login-bg-decor" aria-hidden="true">
+    <span class="material-symbols-outlined filled">travel_explore</span>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

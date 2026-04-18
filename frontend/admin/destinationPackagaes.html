@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Destinations — Tourism Agency Admin</title>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/destinations.css" />
+</head>
+<body>
+<div class="layout">
+
+  <!-- =================== SIDEBAR =================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="img/screen.png" alt="Agency Logo" />
+      <div class="sidebar-brand-text">
+        <h2>Destinations</h2>
+        <p>Tourism Agency</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="adminDash.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        Overview
+      </a>
+      <a href="bookingMang.html" class="nav-link">
+        <span class="material-symbols-outlined">event_available</span>
+        Bookings
+      </a>
+      <a href="destinationPackagaes.html" class="nav-link active">
+        <span class="material-symbols-outlined filled">explore</span>
+        Destinations
+      </a>
+      <a href="setting.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar-initials">AD</div>
+        <div class="sidebar-user-info">
+          <p id="sidebarName">Administrator</p>
+          <p id="sidebarRole">Admin</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =================== MAIN =================== -->
+  <div class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input type="text" placeholder="Search destinations or packages…" id="destSearch" />
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" data-notifications title="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="badge"></span>
+        </button>
+        <button class="icon-btn" title="Help">
+          <span class="material-symbols-outlined">help_outline</span>
+        </button>
+        <div class="divider-v"></div>
+        <button class="btn-primary" id="addPackageBtn">
+          <span class="material-symbols-outlined">add</span>
+          Add Package
+        </button>
+      </div>
+    </header>
+
+    <div class="page-inner page-sections">
+
+      <!-- ---- Page title + category filters ---- -->
+      <section class="dest-header">
+        <div>
+          <h2>Destination Packages</h2>
+          <p>Manage and curate travel packages for your clients.</p>
+        </div>
+        <div class="dest-category-chips" id="categoryChips">
+          <button class="chip active" data-category="all">All</button>
+          <button class="chip inactive" data-category="beach">Beach</button>
+          <button class="chip inactive" data-category="city">City</button>
+          <button class="chip inactive" data-category="mountain">Mountain</button>
+          <button class="chip inactive" data-category="adventure">Adventure</button>
+          <button class="chip inactive" data-category="cultural">Cultural</button>
+        </div>
+      </section>
+
+      <!-- ---- Loading state ---- -->
+      <div id="loadingState" style="text-align:center;padding:60px;color:var(--outline);">
+        Loading packages…
+      </div>
+
+      <!-- ---- Packages Bento Grid ---- -->
+      <div class="packages-grid" id="packagesGrid" style="display:none;">
+        <!-- Cards injected by JS -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/destinations.js"></script>
+</body>
+</html>

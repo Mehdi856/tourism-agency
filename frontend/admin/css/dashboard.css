@@ -1,0 +1,237 @@
+/* ================================================
+   DASHBOARD PAGE STYLES
+   ================================================ */
+
+/* ---- Hero Section ---- */
+.dash-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dash-hero h2 {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+.dash-hero p {
+  font-size: 14px;
+  color: var(--on-surface-variant);
+  margin-top: 4px;
+}
+
+.dash-hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ---- Bar Chart ---- */
+.bar-chart {
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar-fill-col {
+  width: 100%;
+  background: var(--primary-fixed);
+  border-radius: 6px 6px 0 0;
+  transition: background 0.2s;
+  position: relative;
+  cursor: pointer;
+}
+
+.bar-fill-col:hover { background: var(--primary-fixed-dim); }
+
+.bar-fill-col.peak { background: var(--primary-container); }
+.bar-fill-col.peak:hover { background: var(--primary); }
+
+.bar-peak-label {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--on-surface);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.bar-month {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--outline);
+}
+.bar-col.peak .bar-month { color: var(--primary); }
+
+/* ---- Tooltip on hover ---- */
+.bar-fill-col[data-value]:hover::after {
+  content: attr(data-value);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--on-surface);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- Routes Card ---- */
+.routes-card {
+  background: #1a2433;
+  color: #fff;
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.routes-card::before {
+  content: '';
+  position: absolute;
+  right: -30px; top: -30px;
+  width: 120px; height: 120px;
+  background: rgba(100,149,237,0.12);
+  border-radius: 50%;
+  filter: blur(30px);
+}
+
+.routes-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.routes-card > p {
+  font-size: 12px;
+  color: rgba(163,199,255,0.6);
+  margin-bottom: 24px;
+}
+
+.routes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.route-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-thumb {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+}
+
+.route-info { flex: 1; }
+
+.route-info-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.route-pct { color: #93c5fd; }
+
+.routes-view-all {
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #93c5fd;
+  align-self: center;
+  transition: color 0.15s;
+}
+.routes-view-all:hover { color: #fff; }
+
+/* ---- Recent Bookings Table extras ---- */
+.customer-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.customer-cell img {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.customer-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--on-surface);
+  line-height: 1.2;
+}
+
+.customer-email {
+  font-size: 11px;
+  color: var(--on-surface-variant);
+}
+
+.dest-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.dest-sub {
+  font-size: 11px;
+  color: var(--on-surface-variant);
+  margin-top: 2px;
+}
+
+.revenue-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.row-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+tr:hover .row-actions { opacity: 1; }

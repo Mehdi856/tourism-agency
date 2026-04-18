@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookings — Tourism Agency Admin</title>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/bookings.css" />
+</head>
+<body>
+<div class="layout">
+
+  <!-- =================== SIDEBAR =================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="img/screen.png" alt="Agency Logo" />
+      <div class="sidebar-brand-text">
+        <h2>Bookings</h2>
+        <p>Tourism Agency</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="adminDash.html" class="nav-link">
+        <span class="material-symbols-outlined">dashboard</span>
+        Overview
+      </a>
+      <a href="bookingMang.html" class="nav-link active">
+        <span class="material-symbols-outlined filled">event_available</span>
+        Bookings
+      </a>
+      <a href="destinationPackagaes.html" class="nav-link">
+        <span class="material-symbols-outlined">explore</span>
+        Destinations
+      </a>
+      <a href="setting.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="avatar-initials">AD</div>
+        <div class="sidebar-user-info">
+          <p id="sidebarName">Administrator</p>
+          <p id="sidebarRole">Admin</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =================== MAIN =================== -->
+  <div class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input type="text" placeholder="Search reservations, IDs or destinations…" id="bookingSearch" />
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" data-notifications title="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="badge"></span>
+        </button>
+        <button class="icon-btn" title="Help">
+          <span class="material-symbols-outlined">help_outline</span>
+        </button>
+        <div class="divider-v"></div>
+        <button class="btn-primary" id="newBookingBtn">
+          <span class="material-symbols-outlined">add</span>
+          New Booking
+        </button>
+      </div>
+    </header>
+
+    <div class="page-inner page-sections">
+
+      <!-- ---- Filters ---- -->
+      <section class="bookings-filters">
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip inactive" data-filter="confirmed">Confirmed</button>
+          <button class="chip inactive" data-filter="processing">Processing</button>
+          <button class="chip inactive" data-filter="pending">Pending</button>
+          <button class="chip inactive" data-filter="cancelled">Cancelled</button>
+        </div>
+        <div class="filter-secondary">
+          <select class="form-input" id="sortSelect" style="width:auto;padding:8px 12px;font-size:13px;">
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="revenue-desc">Highest Revenue</option>
+            <option value="revenue-asc">Lowest Revenue</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- ---- Bookings Table ---- -->
+      <section>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Customer</th>
+                <th>Destination / Package</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th style="text-align:right;">Revenue</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTbody">
+              <tr>
+                <td colspan="7" style="text-align:center;padding:40px;color:var(--outline);">
+                  Loading bookings…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div class="pagination" id="paginationBar">
+            <p class="pagination-info">
+              Showing <strong id="pageFrom">—</strong>–<strong id="pageTo">—</strong>
+              of <strong id="pageTotal">—</strong> reservations
+            </p>
+            <div class="pagination-pages" id="paginationPages"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- Summary Bento Cards ---- */
+      <section class="grid-3" id="bookingSummary">
+        <div class="metric-card primary-card">
+          <div style="position:relative;z-index:1;">
+            <p class="metric-label" style="text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:700;">Active Bookings</p>
+            <p class="metric-value" id="activeBookingsCount">—</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;position:relative;z-index:1;font-size:13px;color:rgba(255,255,255,0.85);">
+            <span class="material-symbols-outlined" style="font-size:18px;color:#86efac;">trending_up</span>
+            <span id="activeBookingsTrend">—</span>
+          </div>
+          <div style="position:absolute;right:-30px;bottom:-30px;width:100px;height:100px;background:rgba(255,255,255,0.08);border-radius:50%;filter:blur(25px);"></div>
+        </div>
+
+        <div class="card" style="padding:28px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--on-surface-variant);">Revenue Forecast</p>
+            <p class="metric-value" style="margin-top:8px;" id="forecastRevenue">—</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--primary);font-weight:600;">
+            <span class="material-symbols-outlined" style="font-size:16px;">calendar_today</span>
+            <span id="forecastPeriod">—</span>
+          </div>
+        </div>
+
+        <div class="metric-card" style="background:var(--tertiary-container);border:none;">
+          <div>
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--on-tertiary-container);opacity:.8;">Pending Approvals</p>
+            <p class="metric-value" style="color:var(--on-tertiary-container);margin-top:8px;" id="pendingApprovalsCount">—</p>
+          </div>
+          <button class="btn-secondary" id="reviewTasksBtn" style="background:rgba(255,255,255,0.15);color:var(--on-tertiary-container);">Review Tasks</button>
+        </div>
+      </section>
+
+    </div>
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<!-- =================== BOOKING MODAL =================== -->
+<div class="modal-overlay" id="modalOverlay" style="display:none;">
+  <div class="modal" id="bookingModal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Booking Details</h3>
+      <button class="icon-btn" id="closeModal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Content injected by JS -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="modalCancelBtn">Close</button>
+      <button class="btn-primary" id="modalActionBtn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/bookings.js"></script>
+</body>
+</html>

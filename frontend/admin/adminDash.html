@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Tourism Agency Admin</title>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+<div class="layout">
+
+  <!-- =================== SIDEBAR =================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="img/screen.png" alt="Agency Logo" />
+      <div class="sidebar-brand-text">
+        <h2>Admin Console</h2>
+        <p>Tourism Agency</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="adminDash.html" class="nav-link active">
+        <span class="material-symbols-outlined filled">dashboard</span>
+        Overview
+      </a>
+      <a href="bookingMang.html" class="nav-link">
+        <span class="material-symbols-outlined">event_available</span>
+        Bookings
+      </a>
+      <a href="destinationPackagaes.html" class="nav-link">
+        <span class="material-symbols-outlined">explore</span>
+        Destinations
+      </a>
+      <a href="setting.html" class="nav-link">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="sidebar-new-btn" onclick="window.location.href='bookingMang.html'">
+        <span class="material-symbols-outlined">add</span>
+        New Booking
+      </button>
+    </div>
+  </aside>
+
+  <!-- =================== MAIN =================== -->
+  <div class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input type="text" placeholder="Search itineraries or passengers…" id="dashSearch" />
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" data-notifications title="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="badge"></span>
+        </button>
+        <button class="icon-btn" title="Help">
+          <span class="material-symbols-outlined">help_outline</span>
+        </button>
+        <div class="divider-v"></div>
+        <div class="topbar-user">
+          <div class="topbar-user-info">
+            <p id="adminName">Administrator</p>
+            <p id="adminRole">Super Admin</p>
+          </div>
+          <img src="img/admin-avatar.png" alt="Admin" id="adminAvatar"
+               onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';" />
+          <div class="avatar-initials" id="avatarFallback" style="display:none;">AD</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-inner page-sections">
+
+      <!-- ---- Hero Header ---- -->
+      <section class="dash-hero">
+        <div>
+          <h2>Performance Dashboard</h2>
+          <p>Monitor your agency's growth and active traveller metrics.</p>
+        </div>
+        <div class="dash-hero-actions">
+          <button class="btn-secondary" id="downloadReportBtn">Download Report</button>
+          <button class="btn-primary" id="liveViewBtn">
+            <span class="material-symbols-outlined">radio_button_checked</span>
+            Live View
+          </button>
+        </div>
+      </section>
+
+      <!-- ---- KPI Metrics ---- -->
+      <section class="grid-3" id="metricsGrid">
+        <!-- Cards injected by dashboard.js -->
+        <div class="metric-card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div class="metric-icon">
+              <span class="material-symbols-outlined filled">payments</span>
+            </div>
+            <span class="metric-change" id="revenueChange">—</span>
+          </div>
+          <div>
+            <p class="metric-label">Total Revenue</p>
+            <p class="metric-value" id="totalRevenue">—</p>
+          </div>
+          <div>
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--outline);margin-bottom:6px;" id="revenueTarget"></p>
+            <div class="metric-progress-bar">
+              <div class="bar-fill" id="revenueBar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div class="metric-icon">
+              <span class="material-symbols-outlined filled">confirmation_number</span>
+            </div>
+            <span class="metric-change" id="bookingsChange">—</span>
+          </div>
+          <div>
+            <p class="metric-label">Total Bookings</p>
+            <p class="metric-value" id="totalBookings">—</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+            <span class="material-symbols-outlined" style="font-size:16px;color:var(--outline);">pending</span>
+            <span style="font-size:11px;color:var(--outline);font-weight:600;" id="pendingCount">— pending approval</span>
+          </div>
+        </div>
+
+        <div class="metric-card primary-card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1;">
+            <div class="metric-icon">
+              <span class="material-symbols-outlined filled">travel_explore</span>
+            </div>
+            <span class="metric-change">LIVE</span>
+          </div>
+          <div style="position:relative;z-index:1;">
+            <p class="metric-label">Active Trips</p>
+            <p class="metric-value" id="activeTrips">—</p>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:12px;position:relative;z-index:1;">
+            <p style="font-size:12px;color:rgba(255,255,255,0.8);" id="topHubs"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- Charts + Routes ---- -->
+      <section style="display:grid;grid-template-columns:2fr 1fr;gap:24px;">
+
+        <!-- Booking Trends Chart -->
+        <div class="card" style="padding:28px;">
+          <div class="section-header" style="margin-bottom:28px;">
+            <div>
+              <h3 style="font-size:18px;color:var(--primary);font-weight:800;">Booking Trends</h3>
+              <p style="font-size:12px;color:var(--on-surface-variant);margin-top:2px;">Monthly ticket volume</p>
+            </div>
+            <select class="form-input" style="width:auto;padding:6px 12px;font-size:12px;font-weight:600;" id="trendPeriod">
+              <option value="6">Last 6 Months</option>
+              <option value="12">Last 12 Months</option>
+            </select>
+          </div>
+          <div class="bar-chart" id="barChart">
+            <!-- Bars injected by JS -->
+          </div>
+        </div>
+
+        <!-- Top Routes -->
+        <div class="routes-card">
+          <h3>Top Routes</h3>
+          <p>Performance by destination</p>
+          <div class="routes-list" id="routesList">
+            <!-- Injected by JS -->
+          </div>
+          <button class="routes-view-all" id="viewAllRoutesBtn">View All Destinations →</button>
+        </div>
+
+      </section>
+
+      <!-- ---- Recent Bookings ---- -->
+      <section>
+        <div class="section-header">
+          <h3>Recent Bookings</h3>
+          <a href="bookingMang.html" class="view-all-btn">
+            View All Transactions
+            <span class="material-symbols-outlined" style="font-size:14px;">open_in_new</span>
+          </a>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Destination</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Revenue</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="recentBookingsTbody">
+              <tr>
+                <td colspan="6" style="text-align:center;padding:32px;color:var(--outline);">
+                  Loading bookings…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div><!-- /page-inner -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<script src="js/shared.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
