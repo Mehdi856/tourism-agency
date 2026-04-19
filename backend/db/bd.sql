@@ -25,7 +25,15 @@ CREATE TABLE trip (
     places INT,
     date DATERANGE,-- using daterange to store the start and end date of the trip
     visual boolean, -- to determine if the trip is suggested to the customers or not
-    media TEXT[] -- array of media links with out using claudinary or any other media hosting service
+    media TEXT[], -- array of media links with out using claudinary or any other media hosting service
+    hotel_id BIGINT NOT NULL REFERENCES hotel(id) 
+);
+
+CREATE TABLE hotel(
+   id BIGSERIAL PRIMARY KEY, 
+   name TEXT,
+   stars INT,
+   img TEXT
 );
 
 

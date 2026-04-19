@@ -1,22 +1,10 @@
-import os
-from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
-from supabase import create_client
+from fastapi import HTTPException
+
+from db.supabase import supabase
 from models import fullregistration, Reservation, Customer, Trip, Admin
 
-load_dotenv()
-app = FastAPI()
 
-key = os.getenv("API_KEY")
-url = os.getenv("BASE_URL")
-
-if not key or not url:
-    raise RuntimeError("API_KEY or BASE_URL not set in .env")
-
-supabase = create_client(url, key)
-
-
-def generate_unique_code(supabase, length=10):
+def generate_unique_code(length=10):
     import random
     import string
     while True:
@@ -27,27 +15,9 @@ def generate_unique_code(supabase, length=10):
 
 
 # ─────────────────────────────────────────────
-# SEARCH TRIPS
-# ─────────────────────────────────────────────
-@app.get("/search_trips")
-async def search_trips(name: str = None, location: str = None):
-    try:
-        query = supabase.table("trip").select("*")
-        if name:
-            query = query.ilike("name", f"%{name}%")
-        if location:
-            query = query.ilike("location", f"%{location}%")
-        response = query.execute()
-        return response.data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-# ─────────────────────────────────────────────
 # 1. FULL REGISTRATION + RESERVATION (new customer)
 #    uses: fullregistration model
-# ─────────────────────────────────────────────
-@app.post("/register_and_reserve")
+# ─────────────────────────────────────────────     
 async def register_and_reserve(data: fullregistration):
     try:
         # Check trip exists and has places
@@ -110,13 +80,14 @@ async def register_and_reserve(data: fullregistration):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
 
 
 # ─────────────────────────────────────────────
 # 2. RESERVE ONLY (existing customer by email)
 #    uses: Reservation model
 # ─────────────────────────────────────────────
-@app.post("/reserve")
 async def reserve(data: Reservation):
     try:
         # Find customer by email
@@ -165,12 +136,12 @@ async def reserve(data: Reservation):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
 
 
 # ─────────────────────────────────────────────
 # 3. GET RESERVATION by transaction code
 # ─────────────────────────────────────────────
-@app.get("/reservation/{transaction_code}")
 async def get_reservation(transaction_code: str):
     try:
         resp = supabase.table("reservation") \
@@ -184,12 +155,12 @@ async def get_reservation(transaction_code: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
+    
 
 # ─────────────────────────────────────────────
 # 4. CANCEL RESERVATION by transaction code
 # ─────────────────────────────────────────────
-@app.delete("/reservation/{transaction_code}")
+    
 async def cancel_reservation(transaction_code: str):
     try:
         resp = supabase.table("reservation") \
@@ -218,19 +189,3 @@ async def cancel_reservation(transaction_code: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-#get all visual trips for frontend display
-@app.get("/visual_trips")    
-async def visualize_trips():
-    try:
-        resp = supabase.table("trip").select("*").eq("visual", True).execute()
-        return resp.data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("server:app", host="localhost", port=8000, reload=True)
