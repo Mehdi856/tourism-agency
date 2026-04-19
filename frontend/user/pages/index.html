@@ -13,12 +13,11 @@
 <!-- ========== NAVBAR ========== -->
 <nav>
   <div class="logo">
-    <img src="https://via.placeholder.com/150x48/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+    <img src="../images/Logo.jpeg" alt="MakeMYtrip Logo">
   </div>
   <div class="nav-links">
     <a href="index.html" class="active">Home</a>
-    <a href="search.html">Hotels</a>
-    <a href="search.html">Flights</a>
+    <a href="search.html">Search</a>
   </div>
 </nav>
 
@@ -31,9 +30,10 @@
     <p>Experience advanced travel curation where the journey is as effortless as the destination. Your next escape, perfectly choreographed.</p>
   </div>
   <div class="search-box">
-    <div class="search-field">
+    <div class="search-field" style="position:relative;">
       <span class="search-label">Where To?</span>
-      <input class="search-input" id="inp-where" type="text" placeholder="City, country or resort...">
+      <input class="search-input" id="inp-where" type="text" placeholder="City, country or resort..." autocomplete="off">
+      <ul id="autocomplete-where" class="autocomplete-list"></ul>
     </div>
     <div class="search-field">
       <span class="search-label">Check-in</span>
@@ -129,7 +129,7 @@
       <button class="nav-arrow">&#8250;</button>
     </div>
   </div>
-  <div class="cards-row">
+  <div class="cards-row" id="deals-container">
     <div class="deal-card">
       <img class="deal-img" src="https://images.unsplash.com/photo-1439130490301-25e322d88054?w=400&q=80" alt="Maldives">
       <div class="deal-body">
@@ -235,6 +235,7 @@
   </div>
 </footer>
 
+<script src="../js/api.js"></script>
 <script src="../js/index.js"></script>
 </body>
 </html>

@@ -398,3 +398,30 @@ section + section { padding-top: 0; }
   color: white;
   border-color: var(--blue);
 }
+
+/* ============================================================
+   RESPONSIVE — MOBILE (<768px)
+   ============================================================ */
+@media (max-width: 767px) {
+  .hero { min-height: 400px; }
+  .hero-text { left: 16px; bottom: 80px; right: 16px; }
+  .hero h1 { font-size: 36px; }
+  .search-container { bottom: -60px; left: 16px; right: 16px; padding: 16px 20px; flex-direction: column; }
+  .input-group { min-width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; }
+  .input-group:last-child { border-bottom: none; }
+  .search-btn { width: 100%; justify-content: center; margin-top: 10px; }
+  section { padding-top: 80px !important; }
+  .cards-row { flex-direction: column; }
+  .deal-card { min-width: 100%; }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET (768px–1024px)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero h1 { font-size: 48px; }
+  .search-container { flex-wrap: wrap; }
+  .input-group { min-width: 45%; border-right: none; margin-bottom: 16px; }
+  .cards-row { flex-wrap: wrap; }
+  .deal-card { min-width: calc(50% - 10px); }
+}

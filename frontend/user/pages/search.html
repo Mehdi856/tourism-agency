@@ -13,12 +13,11 @@
 <!-- ========== NAVBAR ========== -->
 <nav>
   <div class="logo">
-    <img src="https://via.placeholder.com/150x48/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+    <img src="../images/Logo.jpeg" alt="MakeMYtrip Logo">
   </div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="search.html" class="active">Search</a>
-    <a href="#">Flights</a>
   </div>
 </nav>
 
@@ -102,35 +101,59 @@
   <!-- RESULTS COLUMN -->
   <div class="results-col">
 
-    <!-- Search bar -->
+    <!-- Search bar (Interactive) -->
     <div class="search-bar-wrapper" style="padding: 0 0 24px;">
-      <div class="search-bar">
-        <div class="search-pill">
-          <span class="icon">📍</span>
-          <div>
-            <div class="label">Destination</div>
-            <div class="value">Italy</div>
+      <div class="search-box">
+        <div class="search-field" style="position:relative;">
+          <span class="search-label">Where To?</span>
+          <input class="search-input" id="inp-where" type="text" placeholder="City, country or resort..." autocomplete="off">
+          <ul id="autocomplete-where" class="autocomplete-list"></ul>
+        </div>
+        <div class="search-field">
+          <span class="search-label">Check-in</span>
+          <input class="search-input" id="inp-checkin" type="date">
+        </div>
+        <div class="search-field">
+          <span class="search-label">Check-out</span>
+          <input class="search-input" id="inp-checkout" type="date">
+        </div>
+        <div class="search-field travellers-field" style="position:relative;">
+          <span class="search-label">Travellers &amp; Rooms</span>
+          <input class="search-input" id="inp-travellers" type="text" placeholder="1 Adult" readonly
+                 onclick="toggleTravellersDropdown()" style="cursor:pointer;">
+          <div id="travellers-dropdown" class="travellers-dropdown">
+            <div class="dropdown-row">
+              <div><div class="dropdown-label-main">Adults</div><div class="dropdown-label-sub">Age 18+</div></div>
+              <div class="counter-group">
+                <button class="count-btn" onclick="changeCount('adults',-1)">−</button>
+                <span id="count-adults" class="count-display">1</span>
+                <button class="count-btn plus" onclick="changeCount('adults',1)">+</button>
+              </div>
+            </div>
+            <div class="dropdown-row">
+              <div><div class="dropdown-label-main">Children</div><div class="dropdown-label-sub">Age 2–17</div></div>
+              <div class="counter-group">
+                <button class="count-btn" onclick="changeCount('children',-1)">−</button>
+                <span id="count-children" class="count-display">0</span>
+                <button class="count-btn plus" onclick="changeCount('children',1)">+</button>
+              </div>
+            </div>
+            <div class="dropdown-row">
+              <div><div class="dropdown-label-main">Rooms</div></div>
+              <div class="counter-group">
+                <button class="count-btn" onclick="changeCount('rooms',-1)">−</button>
+                <span id="count-rooms" class="count-display">1</span>
+                <button class="count-btn plus" onclick="changeCount('rooms',1)">+</button>
+              </div>
+            </div>
+            <button class="dropdown-done" onclick="toggleTravellersDropdown()">Done</button>
           </div>
         </div>
-        <div class="search-pill">
-          <span class="icon">📅</span>
-          <div>
-            <div class="label">Dates</div>
-            <div class="value">Sep 15 – Sep 21</div>
-          </div>
-        </div>
-        <div class="search-pill">
-          <span class="icon">👤</span>
-          <div>
-            <div class="label">Travellers</div>
-            <div class="value">2 Adults</div>
-          </div>
-        </div>
-        <button class="search-go">
+        <button class="search-btn" id="btn-search-update">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
-          Search
+          Update
         </button>
       </div>
     </div>
@@ -180,6 +203,7 @@
   </div>
 </footer>
 
+<script src="../js/api.js"></script>
 <script src="../js/search.js"></script>
 </body>
 </html>

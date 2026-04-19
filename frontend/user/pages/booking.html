@@ -13,13 +13,13 @@
 <!-- ========== NAVBAR ========== -->
 <nav>
   <div class="logo">
-    <img src="https://via.placeholder.com/150x38/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+    <img src="../images/Logo.jpeg" alt="MakeMYtrip Logo">
   </div>
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="search.html">Search</a></li>
     <li><a href="details.html">Trip Details</a></li>
-    <li><a href="booking.html" class="active">Concierge</a></li>
+    <li><a href="booking.html" class="active">Bookings</a></li>
   </ul>
 </nav>
 
@@ -35,8 +35,8 @@
         onerror="this.src='https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=90'">
       <div class="overlay">
         <div class="featured-tag">Featured Retreat</div>
-        <h2>The Alpine Sanctuary</h2>
-        <p>Experience serenity in the heart of the peaks.<br>Your bespoke journey begins with a single detail.</p>
+        <h2 id="booking-trip-name">The Alpine Sanctuary</h2>
+        <p id="booking-trip-desc">Experience serenity in the heart of the peaks.<br>Your bespoke journey begins with a single detail.</p>
       </div>
     </div>
 
@@ -71,24 +71,11 @@
         </div>
       </div>
 
-      <!-- Number of Rooms -->
-      <div class="section-label">Number of Rooms</div>
-      <div class="chip-group" id="roomsGroup">
-        <button class="chip active" data-val="1" onclick="selectRooms(this)">1</button>
-        <button class="chip" data-val="2" onclick="selectRooms(this)">2</button>
-        <button class="chip" data-val="3" onclick="selectRooms(this)">3</button>
-        <button class="chip" data-val="4" onclick="selectRooms(this)">4+</button>
-      </div>
-      <div class="warning-text" id="roomsWarning">Number of rooms cannot exceed number of people.</div>
-
-      <!-- Number of People -->
-      <div class="section-label">Number of People</div>
-      <div class="chip-group" id="peopleGroup">
-        <button class="chip" data-val="1" onclick="selectPeople(this)">1</button>
-        <button class="chip" data-val="2" onclick="selectPeople(this)">2</button>
-        <button class="chip active" data-val="3" onclick="selectPeople(this)">3</button>
-        <button class="chip" data-val="4" onclick="selectPeople(this)">4</button>
-        <button class="chip" data-val="5" onclick="selectPeople(this)">5+</button>
+      <!-- Traveller Summary (from homepage selection) -->
+      <div class="section-label">Travellers</div>
+      <div class="info-box" id="traveller-summary">
+        <span style="font-size:14px;flex-shrink:0;">👥</span>
+        <span id="traveller-summary-text">Loading traveller info...</span>
       </div>
 
       <!-- Extra Traveler Cards -->
@@ -104,7 +91,7 @@
       <div class="price-row">
         <span class="price-label">Estimated Total</span>
         <div style="text-align:right;">
-          <div class="price-amount">&euro;4,850</div>
+          <div class="price-amount" id="booking-price">&euro;4,850</div>
           <div class="price-note">INCLUDES TAXES AND FEES</div>
         </div>
       </div>
@@ -127,6 +114,7 @@
   <span class="copy">&#169; 2026 Make MY trip. All rights reserved.</span>
 </footer>
 
+<script src="../js/api.js"></script>
 <script src="../js/booking.js"></script>
 </body>
 </html>

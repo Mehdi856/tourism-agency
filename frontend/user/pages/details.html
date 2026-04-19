@@ -13,23 +13,23 @@
 <!-- ========== NAVBAR ========== -->
 <nav>
   <div class="logo">
-    <img src="https://via.placeholder.com/150x48/1A6FE8/ffffff?text=MakeMYtrip" alt="MakeMYtrip Logo">
+    <img src="../images/Logo.jpeg" alt="MakeMYtrip Logo">
   </div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="search.html">Search</a>
-    <a href="details.html" class="active">Your Trip</a>
+    <a href="details.html" class="active">Trip Details</a>
   </div>
 </nav>
 
 <!-- ========== HERO BANNER ========== -->
 <div class="hero-banner">
-  <img src="https://pohcdn.com/sites/default/files/styles/paragraph__live_banner__lb_image__1880bp/public/live_banner/positano.jpg" alt="Positano Italy">
+  <img id="hero-image" src="https://pohcdn.com/sites/default/files/styles/paragraph__live_banner__lb_image__1880bp/public/live_banner/positano.jpg" alt="Positano Italy">
   <div class="hero-banner-overlay"></div>
   <div class="hero-banner-label">
     <div class="trip-summary-tag">&#9992; Trip Summary</div>
-    <h1>Positano, Italy</h1>
-    <p>8 Days / 7 Nights &nbsp;&middot;&nbsp; 2 Adults</p>
+    <h1 id="hero-title">Positano, Italy</h1>
+    <p id="hero-subtitle">8 Days / 7 Nights &nbsp;&middot;&nbsp; 2 Adults</p>
   </div>
 </div>
 
@@ -108,12 +108,12 @@
           </svg>
           Accommodation
         </div>
-        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="stars" id="hotel-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
       </div>
       <div class="hotel-card">
-        <img class="hotel-img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&q=80" alt="Le Sirenuse Positano">
+        <img class="hotel-img" id="hotel-image" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&q=80" alt="Le Sirenuse Positano">
         <div class="hotel-info">
-          <div class="hotel-name">Le Sirenuse Positano</div>
+          <div class="hotel-name" id="hotel-name">Le Sirenuse Positano</div>
           <div class="hotel-address">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -150,12 +150,12 @@
   <div class="price-card">
     <h3>Price Summary</h3>
     <div class="price-row">
-      <span class="label">Flights (2 Adults)</span>
-      <span class="amount">&euro;840.00</span>
+      <span class="label" id="label-flights">Flights</span>
+      <span class="amount" id="price-flights">&euro;840.00</span>
     </div>
     <div class="price-row">
-      <span class="label">Hotel (7 Nights)</span>
-      <span class="amount">&euro;3,640.00</span>
+      <span class="label" id="label-hotel">Hotel</span>
+      <span class="amount" id="price-hotel">&euro;3,640.00</span>
     </div>
     <div class="price-row">
       <span class="label">Airport Transfers</span>
@@ -163,14 +163,14 @@
     </div>
     <div class="price-row">
       <span class="label">Taxes &amp; Fees</span>
-      <span class="amount">&euro;370.00</span>
+      <span class="amount" id="price-taxes">&euro;370.00</span>
     </div>
     <hr class="price-divider">
     <div class="price-total">
       <span class="label">Total<br>Price</span>
-      <span class="total-amount">&euro;4,850.00</span>
+      <span class="total-amount" id="price-total">&euro;4,850.00</span>
     </div>
-    <div class="price-total-sub">All inclusive for 2 people</div>
+    <div class="price-total-sub" id="label-total-people">All inclusive</div>
     <button class="btn-confirm" onclick="window.location.href='booking.html'">Confirm Selection</button>
     <div class="guarantee">&#10003; Best Price Guarantee</div>
     <div class="cancellation-note">
@@ -198,6 +198,7 @@
   </div>
 </footer>
 
+<script src="../js/api.js"></script>
 <script src="../js/details.js"></script>
 </body>
 </html>

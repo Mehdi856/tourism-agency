@@ -329,3 +329,27 @@
   flex-shrink: 0;
   margin-top: 1px;
 }
+
+/* ============================================================
+   RESPONSIVE — MOBILE (<768px)
+   ============================================================ */
+@media (max-width: 767px) {
+  .hero-banner { height: 240px; }
+  .hero-banner-label { padding: 20px 16px; }
+  .hero-banner-label h1 { font-size: 28px; }
+  .page-content { grid-template-columns: 1fr; padding: 20px 16px; gap: 32px; }
+  .hotel-card { flex-direction: column; }
+  .hotel-img { width: 100%; height: 180px; }
+  .flight-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .flight-times { width: 100%; justify-content: space-between; }
+  .price-card { position: static; }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET (768px–1024px)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero-banner { height: 280px; }
+  .page-content { grid-template-columns: 1fr; padding: 32px 24px; gap: 32px; }
+  .price-card { position: static; max-width: 400px; }
+}

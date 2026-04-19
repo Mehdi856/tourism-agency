@@ -268,3 +268,25 @@ footer .brand   { font-size: 13px; font-weight: 600; color: var(--text); }
 footer ul       { display: flex; gap: 20px; list-style: none; }
 footer ul li a  { font-size: 12px; color: var(--muted); text-decoration: none; }
 footer .copy    { font-size: 11px; color: #bbb; }
+
+/* ============================================================
+   RESPONSIVE — MOBILE (<768px)
+   ============================================================ */
+@media (max-width: 767px) {
+  nav ul { display: none; }
+  .page-body { padding: 16px; }
+  .main { grid-template-columns: 1fr; }
+  .left-panel { display: none; } /* Hide image panel on mobile to focus on form */
+  .right-panel { padding: 20px 16px; }
+  .form-row.two, .form-row.three, .form-row.full-three { grid-template-columns: 1fr; }
+  footer { flex-direction: column; padding: 20px; gap: 16px; }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET (768px–1024px)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .page-body { padding: 24px; }
+  .main { grid-template-columns: 300px 1fr; }
+  .right-panel { padding: 24px; }
+}
