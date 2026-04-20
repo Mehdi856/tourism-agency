@@ -3,6 +3,7 @@ from services.search import search_trips
 from services.trip import visualize_trips
 from services.booking import register_and_reserve,cancel_reservation,reserve
 from models.models import fullregistration,Reservation
+from services.trip import visualize_trips, get_trip_details
 
 router=APIRouter()
 
@@ -27,5 +28,7 @@ async def cancel_reservation_endpoint(transaction_code: str):
 async def reserve_endpoint(data: Reservation):
     return await reserve(data)
 
-
+@router.get("/trip/{trip_id}")
+async def get_trip_details_endpoint(trip_id: int):
+    return await get_trip_details(trip_id)
 
