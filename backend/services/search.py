@@ -6,7 +6,7 @@ from db.supabase import supabase
 # SEARCH TRIPS
 # ─────────────────────────────────────────────
 
-async def search_trips(startdate, enddate, location, numadults, numchild):
+async def search_trips(startdate, enddate, location, numadults, numchild,rooms):
     try:
         response = (
             supabase
@@ -15,6 +15,7 @@ async def search_trips(startdate, enddate, location, numadults, numchild):
             .filter("date", "cs", f"[{startdate},{enddate})")
             .eq("adults", numadults)
             .eq("children", numchild)
+            .eq("room", rooms)
             .ilike("name", f"%{location}%")
             .execute()
         )

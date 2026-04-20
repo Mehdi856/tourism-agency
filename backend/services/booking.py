@@ -1,16 +1,22 @@
 from fastapi import HTTPException
-
+import random
+import string
 from db.supabase import supabase
-from models import fullregistration, Reservation, Customer, Trip, Admin
+from models.models import fullregistration, Reservation, Customer
+from .emailbox import sandbox_email
 
+ 
+def generate_unique_code(supabase, length=10):
 
-def generate_unique_code(length=10):
-    import random
-    import string
     while True:
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-        response = supabase.table("reservation").select("transaction_code").eq("transaction_code", code).execute()
-        if not response.data or len(response.data) == 0:
+
+        response = supabase.table("reservation") \
+            .select("transaction_code") \
+            .eq("transaction_code", code) \
+            .execute()
+
+        if not response.data:
             return code
 
 
@@ -68,7 +74,9 @@ async def register_and_reserve(data: fullregistration):
         }).execute()
 
         supabase.table("trip").update({"places": trip["places"] - 1}).eq("id", data.trip_id).execute()
+        tripname=supabase.table("trip").select("name").eq("id", data.trip_id).execute().data[0]["name"]
 
+        sandbox_email(data, tripname, transaction_code)
         return {
             "message": "Reservation created successfully",
             "transaction_code": transaction_code,
