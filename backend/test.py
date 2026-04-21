@@ -63,8 +63,8 @@ BASE_URL = "http://localhost:8000"
 
 
 # ===============get trip details========================
-response = requests.get(f"{BASE_URL}/trip/1")
-print(response.url)
-print(response.status_code)
-print(response.text)
+# response = requests.get(f"{BASE_URL}/trip/1")
+# print(response.url)
+# print(response.status_code)
+# print(response.text)
 # ==============================================================================
