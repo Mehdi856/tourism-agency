@@ -16,6 +16,12 @@ class Customer(BaseModel):
     birthdate: date
 
 
+class Hotel(BaseModel):
+    name: str
+    rating: int
+    img: str
+
+
 class Trip(BaseModel):
     name: str
     descripiton: str
@@ -25,6 +31,11 @@ class Trip(BaseModel):
     end_date: date
     visual: bool
     media: list[str]
+    adults: int
+    children: int
+    room: int
+    country: str
+    hotel: Hotel
 
 
 class Reservation(BaseModel):

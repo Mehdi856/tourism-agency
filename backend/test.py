@@ -68,3 +68,32 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 # ==============================================================================
+
+
+# ===============add trip (admin)=======================
+# when u test entre ur own data
+#trip_data = {
+    #"name": "sol de tarragona",
+    #"descripiton": "A breathtaking journey through mejor city en catalunya.",
+    #"price": 54850.00,
+    #"places": 3,
+    #"start_date": "2026-06-01",
+    #"end_date": "2026-06-10",
+    #"visual": True,
+    #"media": ["https://example.com/img1.jpg", "https://example.com/img2.jpg"],
+    #"adults": 2,
+    #"children": 1,
+    #"room": 1,
+    #"country": "Espagne",
+    #"hotel": {
+        #"name": "Hotel Cosmos Tarragona",
+        #"rating": 4,
+        #"img": "https://example.com/hotel.jpg"
+    #}
+#}
+
+#response = requests.post(f"{BASE_URL}/admin/trip", json=trip_data)
+#print(response.url)
+#print(response.status_code)
+#print(response.text)
+# ==============================================================================
