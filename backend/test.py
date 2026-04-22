@@ -114,3 +114,10 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 # ==============================================================================
+
+username = "admin"
+password = "admin123"
+response = requests.post(f"{BASE_URL}/admin/authenticate", params={"username": username, "password": password})
+print(response.url)
+print(response.status_code)
+print(response.text)
