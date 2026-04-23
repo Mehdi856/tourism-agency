@@ -121,28 +121,6 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 #===============================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #==============token Authentication is worke ===================================== 
 
 # token={
@@ -155,17 +133,10 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 #===============================================================================
-
-#username = "admin"
-#password = "admin123"
-#response = requests.post(f"{BASE_URL}/admin/authenticate", params={"username": username, "password": password})
-#print(response.url)
-#print(response.status_code)
-#print(response.text)
 # ===============confirm booking (admin)========================
-transaction_code = "URXY0W56NU"  # replace with a real transaction code
-response = requests.patch(f"{BASE_URL}/admin/confirm/{transaction_code}")
-print(response.url)
-print(response.status_code)
-print(response.text)
+# transaction_code = "URXY0W56NU"  # replace with a real transaction code
+# response = requests.patch(f"{BASE_URL}/admin/confirm/{transaction_code}")
+# print(response.url)
+# print(response.status_code)
+# print(response.text)
 # ==============================================================================
