@@ -114,10 +114,26 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 # ==============================================================================
+#==============admin authentication is working=================================
+# username = "admin1"
+# password = "admin123"
+# response = requests.post(f"{BASE_URL}/admin/authenticate", params={"username": username, "password": password})
+# print(response.url)
+# print(response.status_code)
+# print(response.text)
+#===============================================================================
 
-username = "admin"
-password = "admin123"
-response = requests.post(f"{BASE_URL}/admin/authenticate", params={"username": username, "password": password})
-print(response.url)
-print(response.status_code)
-print(response.text)
+#==============token Authentication is worke ===================================== 
+
+# token={
+#     "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE3NzY5ODI1MzgsImV4cCI6MTc3NzA2ODkzOH0.YagkaJPeRP-uOSjR4UiAQBWHlGxcD6-pZQFU01wQgeE",
+#     "token_type":"bearer",
+#     "username":"admin1"
+# }
+# response = requests.get(f"{BASE_URL}/trip/1", headers={"Authorization": f"Bearer {token['access_token']}"})
+# print(response.url)
+# print(response.status_code)
+# print(response.text)
+#===============================================================================
+
+
