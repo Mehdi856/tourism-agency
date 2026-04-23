@@ -91,7 +91,6 @@ async def register_and_reserve(data: fullregistration):
     
 
 
-
 # ─────────────────────────────────────────────
 # 2. RESERVE ONLY (existing customer by email)
 #    uses: Reservation model
@@ -168,7 +167,6 @@ async def get_reservation(transaction_code: str):
 # ─────────────────────────────────────────────
 # 4. CANCEL RESERVATION by transaction code
 # ─────────────────────────────────────────────
-    
 async def cancel_reservation(transaction_code: str):
     try:
         resp = supabase.table("reservation") \
@@ -192,6 +190,45 @@ async def cancel_reservation(transaction_code: str):
             supabase.table("trip").update({"places": current_places + 1}).eq("id", res["trip_id"]).execute()
 
         return {"message": "Reservation cancelled successfully"}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ─────────────────────────────────────────────
+# 5. CONFIRM BOOKING (admin only)
+#    flips confirmation = True by transaction_code
+# ─────────────────────────────────────────────
+async def confirm_booking(transaction_code: str):
+    try:
+        # Check reservation exists
+        resp = supabase.table("reservation") \
+            .select("*, customer(*), trip(*)") \
+            .eq("transaction_code", transaction_code) \
+            .execute()
+
+        if not resp.data:
+            raise HTTPException(status_code=404, detail="Reservation not found")
+
+        reservation = resp.data[0]
+
+        if reservation["confirmation"]:
+            raise HTTPException(status_code=400, detail="Booking already confirmed")
+
+        # Flip confirmation to True
+        supabase.table("reservation") \
+            .update({"confirmation": True}) \
+            .eq("transaction_code", transaction_code) \
+            .execute()
+
+        return {
+            "message": "Booking confirmed successfully",
+            "transaction_code": transaction_code,
+            "customer": reservation["customer"]["fullname"],
+            "trip": reservation["trip"]["name"],
+        }
 
     except HTTPException:
         raise

@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
 from services.search import search_trips
 from services.trip import visualize_trips, get_trip_details, add_trip
-from services.booking import register_and_reserve, cancel_reservation, reserve
+from services.booking import register_and_reserve, cancel_reservation, reserve, confirm_booking
 from models.models import fullregistration, Reservation, Trip
 from services.auth import authenticate_user,get_current_user
 
@@ -45,6 +45,12 @@ async def get_trip_details_endpoint(trip_id: int, current_user: dict = Depends(g
 async def add_trip_endpoint(data: Trip):
     return await add_trip(data)
 
+
 @router.post("/admin/authenticate")
 async def authenticate_user_endpoint(username: str, password: str):
     return authenticate_user(username, password)
+
+
+@router.patch("/admin/confirm/{transaction_code}")
+async def confirm_booking_endpoint(transaction_code: str):
+    return await confirm_booking(transaction_code)
