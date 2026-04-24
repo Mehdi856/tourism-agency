@@ -1,9 +1,9 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter, Depends
 from services.search import search_trips
-from services.trip import visualize_trips, get_trip_details, add_trip
+from services.trip import visualize_trips, get_trip_details, add_trip, calculate_cost
 from services.booking import register_and_reserve, cancel_reservation, reserve, confirm_booking
 from models.models import fullregistration, Reservation, Trip
-from services.auth import authenticate_user,get_current_user
+from services.auth import authenticate_user, get_current_user
 
 
 router = APIRouter()
@@ -36,9 +36,10 @@ async def reserve_endpoint(data: Reservation):
 
 @router.get("/trip/{trip_id}")
 async def get_trip_details_endpoint(trip_id: int, current_user: dict = Depends(get_current_user)):
-    return { 
-        "Trip":await get_trip_details(trip_id),
-        "User":current_user["sub"]}
+    return {
+        "Trip": await get_trip_details(trip_id),
+        "User": current_user["sub"]
+    }
 
 
 @router.post("/admin/trip")
@@ -54,3 +55,8 @@ async def authenticate_user_endpoint(username: str, password: str):
 @router.patch("/admin/confirm/{transaction_code}")
 async def confirm_booking_endpoint(transaction_code: str):
     return await confirm_booking(transaction_code)
+
+
+@router.get("/admin/cost/{trip_id}")
+async def calculate_cost_endpoint(trip_id: int):
+    return await calculate_cost(trip_id)

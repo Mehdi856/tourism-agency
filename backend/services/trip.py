@@ -127,3 +127,38 @@ async def add_trip(data: Trip):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# Calculate total cost of a trip (admin only)
+async def calculate_cost(trip_id: int):
+    try:
+        resp = (
+            supabase.table("trip")
+            .select("name, price, adults, children")
+            .eq("id", trip_id)
+            .execute()
+        )
+        if not resp.data:
+            raise HTTPException(status_code=404, detail="Trip not found")
+
+        trip = resp.data[0]
+
+        raw_price = str(trip.get("price") or "0").replace("$", "").replace(",", "").strip()
+        price_per_person = float(raw_price)
+
+        adults = trip["adults"]
+        children = trip["children"]
+        total = price_per_person * (adults + children)
+
+        return {
+            "trip_name": trip["name"],
+            "price_per_person": price_per_person,
+            "adults": adults,
+            "children": children,
+            "total_cost": total,
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

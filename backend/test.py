@@ -113,6 +113,7 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 # ==============================================================================
+
 #==============admin authentication is working=================================
 # username = "admin1"
 # password = "admin123"
@@ -121,8 +122,8 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 #===============================================================================
-#==============token Authentication is worke ===================================== 
 
+#==============token Authentication is working===================================
 # token={
 #     "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE3NzY5ODI1MzgsImV4cCI6MTc3NzA2ODkzOH0.YagkaJPeRP-uOSjR4UiAQBWHlGxcD6-pZQFU01wQgeE",
 #     "token_type":"bearer",
@@ -133,9 +134,18 @@ BASE_URL = "http://localhost:8000"
 # print(response.status_code)
 # print(response.text)
 #===============================================================================
+
 # ===============confirm booking (admin)========================
 # transaction_code = "URXY0W56NU"  # replace with a real transaction code
 # response = requests.patch(f"{BASE_URL}/admin/confirm/{transaction_code}")
+# print(response.url)
+# print(response.status_code)
+# print(response.text)
+# ==============================================================================
+
+# ===============calculate cost (admin) working =========================
+# trip_id = 3  # replace with a real trip id
+# response = requests.get(f"{BASE_URL}/admin/cost/{trip_id}")
 # print(response.url)
 # print(response.status_code)
 # print(response.text)
