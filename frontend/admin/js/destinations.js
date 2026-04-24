@@ -282,7 +282,7 @@
 
     const payload = {
       name:        g('f_name'),
-      descripiton: g('f_descripiton'),
+      description: g('f_descripiton'),
       price:       parseFloat(g('f_price')) || 0,
       places:      parseInt(g('f_places')) || 0,
       start_date:  g('f_start_date'),

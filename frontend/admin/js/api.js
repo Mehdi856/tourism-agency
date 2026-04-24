@@ -8,6 +8,23 @@ function getAuthHeaders() {
   };
 }
 
+async function login(username, password) {
+  const params = new URLSearchParams({ username, password });
+
+  const res = await fetch(`${BASE_URL}/admin/authenticate?${params}`, {
+    method: 'POST',
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || !data.access_token) {
+    throw new Error('Invalid credentials. Please try again.');
+  }
+
+  localStorage.setItem('access_token', data.access_token);
+  return data;
+}
+
 async function addPackage(payload) {
   const res = await fetch(`${BASE_URL}/admin/trip`, {
     method:  'POST',

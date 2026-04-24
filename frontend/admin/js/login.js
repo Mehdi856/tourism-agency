@@ -81,26 +81,11 @@
     setLoading(true);
 
     try {
-      const params = new URLSearchParams({
-        username: usernameEl.value.trim(),
-        password: passwordEl.value,
-      });
-
-      const response = await fetch(`http://localhost:8000/admin/authenticate?${params}`, {
-        method: 'POST',
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.access_token) {
-        localStorage.setItem('access_token', data.access_token);
-        window.location.href = 'adminDash.html';
-      } else {
-        showError('Invalid credentials. Please try again.');
-      }
+      // api.js: POST /admin/authenticate → stores token in localStorage
+      await login(usernameEl.value.trim(), passwordEl.value);
+      window.location.href = 'adminDash.html';
     } catch (err) {
-      // Network error — inform user
-      showError('Unable to connect. Please check your network and try again.');
+      showError(err.message || 'Unable to connect. Please check your network and try again.');
     } finally {
       setLoading(false);
     }

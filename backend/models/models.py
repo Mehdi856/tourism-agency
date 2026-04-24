@@ -36,7 +36,7 @@ class Flight(BaseModel):
 
 class Trip(BaseModel):
     name: str
-    descripiton: str
+    description: str
     price: float
     places: int
     start_date: date

@@ -61,7 +61,7 @@ async def add_trip(data: Trip):
             supabase.table("trip")
             .insert({
                 "name": data.name,
-                "descripiton": data.descripiton,
+                "description": data.description,
                 "price": data.price,
                 "places": data.places,
                 "date": f"[{data.start_date},{data.end_date}]",
