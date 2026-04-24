@@ -188,13 +188,12 @@ async function loadPaymentContext() {
     }
   }
 
-  /* Try to load reservation from API if we have a transaction code */
-  if (params.transaction_code) {
+  /* Try to load trip details from API if we have a trip_id */
+  if (params.trip_id) {
     try {
-      var reservation = await getReservation(params.transaction_code);
+      var trip = await fetchTripById(params.trip_id);
 
-      if (reservation.trip) {
-        var trip = reservation.trip;
+      if (trip) {
         var apiPrice = parsePrice(trip.price);
         var dates = parseDateRange(trip.date);
         var apiDays = daysBetween(dates.start, dates.end);
@@ -208,11 +207,11 @@ async function loadPaymentContext() {
 
         currentPaymentTotal = formatEUR(apiPrice);
         updatePriceDisplays(apiPrice);
-        showToast("Reservation loaded successfully", "success", 2000);
+        showToast("Trip details loaded successfully", "success", 2000);
       }
       return;
     } catch (err) {
-      console.warn("Could not load reservation from API:", err.message);
+      console.warn("Could not load trip details from API:", err.message);
     }
   }
 

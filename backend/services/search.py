@@ -6,7 +6,7 @@ from db.supabase import supabase
 # SEARCH TRIPS
 # ─────────────────────────────────────────────
 
-async def search_trips(startdate, enddate, location, numadults, numchild,rooms):
+async def search_trips(startdate, enddate, location, numadults, numchild, rooms):
     try:
         response = (
             supabase
@@ -16,7 +16,7 @@ async def search_trips(startdate, enddate, location, numadults, numchild,rooms):
             .eq("adults", numadults)
             .eq("children", numchild)
             .eq("room", rooms)
-            .ilike("name", f"%{location}%")
+            .or_(f"name.ilike.%{location}%,country.ilike.%{location}%")
             .execute()
         )
         return response.data

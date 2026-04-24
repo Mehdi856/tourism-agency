@@ -46,14 +46,9 @@ async function fetchVisualTrips() {
       Returns: array of trip objects with nested hotel
    ───────────────────────────────────────────────────────────── */
 async function searchTripsAPI(params) {
-  var query = _buildQuery({
-    startdate: params.startdate,
-    enddate:   params.enddate,
-    location:  params.location,
-    numadults: params.numadults,
-    numchild:  params.numchild
-  });
-  var response = await fetch(API_BASE_URL + "/search_trips" + query);
+  console.log("Searching trips with params:", params);
+  var query = new URLSearchParams(params).toString();
+  var response = await fetch(API_BASE_URL + "/search_trips?" + query);
   return _handleResponse(response);
 }
 
@@ -63,14 +58,6 @@ async function searchTripsAPI(params) {
       Body: { fullname, phonnum, email, birthdate, trip_id }
       Returns: { message, transaction_code, customer_id, trip_id }
    ───────────────────────────────────────────────────────────── */
-async function registerAndReserve(data) {
-  var response = await fetch(API_BASE_URL + "/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-  return _handleResponse(response);
-}
 
 /* ─────────────────────────────────────────────────────────────
    4. RESERVE ONLY  (existing customer by email)
@@ -78,97 +65,47 @@ async function registerAndReserve(data) {
       Body: { email, trip_id }
       Returns: { message, transaction_code, customer_id }
    ───────────────────────────────────────────────────────────── */
-async function reserveTrip(data) {
-  var response = await fetch(API_BASE_URL + "/reserve", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-  return _handleResponse(response);
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    5. GET RESERVATION  (by transaction code)
       GET /reservation/{transaction_code}
       Returns: reservation object with nested customer & trip
    ───────────────────────────────────────────────────────────── */
-async function getReservation(transactionCode) {
-  var response = await fetch(API_BASE_URL + "/reservation/" + encodeURIComponent(transactionCode));
-  return _handleResponse(response);
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    6. CANCEL RESERVATION  (by transaction code)
       DELETE /reservation/{transaction_code}
       Returns: { message }
    ───────────────────────────────────────────────────────────── */
-async function cancelReservation(transactionCode) {
-  var response = await fetch(API_BASE_URL + "/reservation/" + encodeURIComponent(transactionCode), {
-    method: "DELETE"
-  });
-  return _handleResponse(response);
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    7. GET TRIP BY ID  (client-side: fetch all visual and filter)
       Until backend provides a GET /trip/{id} endpoint, we
       fetch all visual trips and filter by id.
    ───────────────────────────────────────────────────────────── */
-async function fetchTripById(tripId) {
-  var trips = await fetchVisualTrips();
-  var id = parseInt(tripId, 10);
-  var trip = null;
-  for (var i = 0; i < trips.length; i++) {
-    if (trips[i].id === id) { trip = trips[i]; break; }
-  }
-  if (!trip) throw new Error("Trip not found (ID: " + tripId + ")");
-  return trip;
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    UTILITY: Read URL search params
    ───────────────────────────────────────────────────────────── */
-function getUrlParams() {
-  var params = {};
-  var search = window.location.search.substring(1);
-  if (!search) return params;
-  var pairs = search.split("&");
-  for (var i = 0; i < pairs.length; i++) {
-    var kv = pairs[i].split("=");
-    if (kv.length === 2) {
-      params[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1]);
-    }
-  }
-  return params;
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    UTILITY: Format date range from Supabase DATERANGE
    Input:  "[2025-06-01,2025-06-10)" (Postgres daterange)
    Output: { start: "2025-06-01", end: "2025-06-10" }
    ───────────────────────────────────────────────────────────── */
-function parseDateRange(daterange) {
-  if (!daterange) return { start: "", end: "" };
-  var cleaned = daterange.replace(/[\[\]\(\)]/g, "");
-  var parts = cleaned.split(",");
-  return {
-    start: (parts[0] || "").trim(),
-    end:   (parts[1] || "").trim()
-  };
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    UTILITY: Format price from Supabase MONEY type
    Input:  "$1,200.00" or "1200.00" or 1200
    Output: 1200  (number)
    ───────────────────────────────────────────────────────────── */
-function parsePrice(price) {
-  if (typeof price === "number") return price;
-  if (typeof price === "string") {
-    return parseFloat(price.replace(/[^0-9.\-]/g, "")) || 0;
-  }
-  return 0;
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    UTILITY: Format number as EUR currency display
