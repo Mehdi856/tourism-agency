@@ -43,8 +43,9 @@ async def get_trip_details_endpoint(trip_id: int, current_user: dict = Depends(g
 
 
 @router.post("/admin/trip")
-async def add_trip_endpoint(data: Trip):
-    return await add_trip(data)
+async def add_trip_endpoint(data: Trip,current_user: dict = Depends(get_current_user)):
+    return{"res": await add_trip(data),
+            "User": current_user["sub"]}
 
 
 @router.post("/admin/authenticate")
@@ -53,10 +54,12 @@ async def authenticate_user_endpoint(username: str, password: str):
 
 
 @router.patch("/admin/confirm/{transaction_code}")
-async def confirm_booking_endpoint(transaction_code: str):
-    return await confirm_booking(transaction_code)
+async def confirm_booking_endpoint(transaction_code: str,current_user: dict = Depends(get_current_user)):
+    return {"res": await confirm_booking(transaction_code),
+            "User": current_user["sub"]}
 
 
 @router.get("/admin/cost/{trip_id}")
-async def calculate_cost_endpoint(trip_id: int):
-    return await calculate_cost(trip_id)
+async def calculate_cost_endpoint(trip_id: int,current_user: dict = Depends(get_current_user)):
+    return {"res":await calculate_cost(trip_id),
+            "User": current_user["sub"]} 
