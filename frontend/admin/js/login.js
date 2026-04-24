@@ -81,27 +81,22 @@
     setLoading(true);
 
     try {
-      /*
-       * Replace the URL below with your real backend endpoint.
-       * Expected response: { success: true } or { success: false, message: "..." }
-       */
-      const response = await fetch('/api/auth/login', {
+      const params = new URLSearchParams({
+        username: usernameEl.value.trim(),
+        password: passwordEl.value,
+      });
+
+      const response = await fetch(`http://localhost:8000/admin/authenticate?${params}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: usernameEl.value.trim(),
-          password: passwordEl.value,
-          remember: document.getElementById('remember').checked,
-        }),
       });
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
-        // Redirect to dashboard on success
+      if (response.ok && data.access_token) {
+        localStorage.setItem('access_token', data.access_token);
         window.location.href = 'adminDash.html';
       } else {
-        showError(data.message || 'Invalid credentials. Please try again.');
+        showError('Invalid credentials. Please try again.');
       }
     } catch (err) {
       // Network error — inform user
