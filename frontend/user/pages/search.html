@@ -37,13 +37,15 @@
         <div class="price-display">
           <span class="price-val" id="price-min-label">€0</span>
           <span class="price-sep">–</span>
-          <span class="price-val" id="price-max-label">€12,000+</span>
+          <span class="price-val" id="price-max-label">€20,000+</span>
         </div>
         <div class="range-slider-container">
           <div class="slider-track"></div>
-          <div class="slider-fill"></div>
-          <input type="range" class="range-input" id="range-min" min="0" max="20000" value="0" step="100">
-          <input type="range" class="range-input" id="range-max" min="0" max="20000" value="20000" step="100">
+          <div class="slider-fill" id="slider-fill"></div>
+          <input type="range" class="range-input" id="range-min" min="0" max="20000" value="0" step="100"
+                 oninput="onRangeInput()">
+          <input type="range" class="range-input" id="range-max" min="0" max="20000" value="20000" step="100"
+                 oninput="onRangeInput()">
         </div>
       </div>
     </div>
@@ -59,39 +61,6 @@
         <div class="rating-option" data-rating="4" onclick="toggleRating(this)">
           <span class="rating-stars">★★★★</span>
           <span class="rating-label">4★ Premium</span>
-        </div>
-        <div class="rating-option" data-rating="boutique" onclick="toggleRating(this)">
-          <span class="rating-stars">🏛</span>
-          <span class="rating-label">Boutique &amp; Heritage</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Trip Type -->
-    <div class="filter-section">
-      <div class="filter-title">Trip Type</div>
-      <div class="type-chips">
-        <div class="type-chip selected" data-type="all" onclick="selectType(this)">All</div>
-        <div class="type-chip" data-type="cultural" onclick="selectType(this)">Cultural</div>
-        <div class="type-chip" data-type="coastal" onclick="selectType(this)">Coastal</div>
-        <div class="type-chip" data-type="romantic" onclick="selectType(this)">Romantic</div>
-        <div class="type-chip" data-type="adventure" onclick="selectType(this)">Adventure</div>
-        <div class="type-chip" data-type="luxury" onclick="selectType(this)">Luxury</div>
-      </div>
-    </div>
-
-    <!-- Flight Preferences -->
-    <div class="filter-section">
-      <div class="filter-title">Flight Preferences</div>
-      <div class="flight-options">
-        <div class="flight-option selected" data-flight="direct" onclick="selectFlight(this)">
-          <span class="flight-option-icon">✈️</span> Direct Flights Only
-        </div>
-        <div class="flight-option" data-flight="business" onclick="selectFlight(this)">
-          <span class="flight-option-icon">💺</span> Business Class
-        </div>
-        <div class="flight-option" data-flight="any" onclick="selectFlight(this)">
-          <span class="flight-option-icon">🌐</span> Any Flight
         </div>
       </div>
     </div>
@@ -149,7 +118,7 @@
             <button class="dropdown-done" onclick="toggleTravellersDropdown()">Done</button>
           </div>
         </div>
-        <button class="search-btn" id="btn-search-update"onclick="updateSearch()">
+        <button class="search-btn" id="btn-search-update" onclick="updateSearch()">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
@@ -164,7 +133,7 @@
         <div class="results-title"></div>
         <div class="results-count-text">Found <strong id="results-count">0</strong> curated packages</div>
       </div>
-      <select class="sort-select" id="sort-select">
+      <select class="sort-select" id="sort-select" onchange="applyFilters()">
         <option value="recommended">Recommended</option>
         <option value="price-asc">Price: Low to High</option>
         <option value="price-desc">Price: High to Low</option>
