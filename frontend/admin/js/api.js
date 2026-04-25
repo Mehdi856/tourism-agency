@@ -48,9 +48,43 @@ async function getOverview() {
   const res = await fetch(`${BASE_URL}/admin/overview`, {
     headers: getAuthHeaders(),
   });
-
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
   const json = await res.json();
-  return json.res; // backend wraps in { res: ..., User: ... }
+  return json.res;
+}
+
+async function getReservation(transactionCode) {
+  const res = await fetch(`${BASE_URL}/admin/reservation/${transactionCode}`, {
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = await res.json();
+  return json.res;
+}
+
+async function confirmBooking(transactionCode) {
+  const res = await fetch(`${BASE_URL}/admin/confirm/${transactionCode}`, {
+    method: 'PATCH',
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`;
+    try { const b = await res.json(); detail = b.detail || detail; } catch (_) {}
+    throw new Error(detail);
+  }
+  const json = await res.json();
+  return json.res;
+}
+
+async function cancelReservation(transactionCode) {
+  const res = await fetch(`${BASE_URL}/cancel_reservation/${transactionCode}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`;
+    try { const b = await res.json(); detail = b.detail || detail; } catch (_) {}
+    throw new Error(detail);
+  }
+  return res.json();
 }
