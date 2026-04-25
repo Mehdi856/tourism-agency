@@ -116,3 +116,60 @@ function renderTrips(data) {
     + '</div>';
   }).join("");
 }
+
+
+async function updateSearch() {
+  sessionStorage.removeItem("searchParams");
+  sessionStorage.removeItem("searchResults");
+   var locationInput = document.getElementById("inp-where").value.trim();
+  var startDateInput = document.getElementById("inp-checkin").value;
+  var endDateInput = document.getElementById("inp-checkout").value;
+  var adultsInput = document.getElementById("count-adults").textContent.trim();
+  var childrenInput = document.getElementById("count-children").textContent.trim();
+  var roomInput = document.getElementById("count-rooms").textContent.trim();
+  if (!startDateInput || !endDateInput) {
+      var params = {
+      location: locationInput,
+      startdate: null,
+      enddate: null,
+      numadults: parseInt(adultsInput),
+      numchild: parseInt(childrenInput),
+      rooms: parseInt(roomInput)
+    };
+  } else {
+    var params = {
+      location: locationInput,
+      startdate: startDateInput,
+      enddate: endDateInput,
+      numadults: parseInt(adultsInput),
+      numchild: parseInt(childrenInput),
+      rooms: parseInt(roomInput)
+    };
+  }
+
+  var trips = await searchTripsAPI(params);
+
+  sessionStorage.setItem("searchParams", JSON.stringify(params));
+  sessionStorage.setItem("searchResults", JSON.stringify(trips));
+
+  renderTrips(trips);
+
+}
+
+
+function toggleTravellersDropdown() {
+  var dropdown = document.getElementById("travellers-dropdown");
+  if (dropdown) {
+    dropdown.classList.toggle("open");
+  }
+}
+function changeCount(type, delta) {
+  var countEl = document.getElementById("count-" + type);
+  if (!countEl) return;
+
+  var currentCount = parseInt(countEl.textContent);
+  var newCount = Math.max(0, currentCount + delta);
+  countEl.textContent = newCount;
+}
+
+

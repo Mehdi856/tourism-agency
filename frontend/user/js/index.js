@@ -67,15 +67,25 @@ async function searchTrips() {
   var adultsInput = document.getElementById("count-adults").textContent.trim();
   var childrenInput = document.getElementById("count-children").textContent.trim();
   var roomInput = document.getElementById("count-rooms").textContent.trim();
-
+  if (!startDateInput || !endDateInput) {
+      var params = {
+      location: locationInput,
+      startdate: null,
+      enddate: null,
+      numadults: parseInt(adultsInput),
+      numchild: parseInt(childrenInput),
+      rooms: parseInt(roomInput)
+    };
+  } else {
     var params = {
-    location: locationInput,
-    startdate: startDateInput,
-    enddate: endDateInput,
-    numadults: parseInt(adultsInput),
-    numchild: parseInt(childrenInput),
-    rooms: parseInt(roomInput)
-  };
+      location: locationInput,
+      startdate: startDateInput,
+      enddate: endDateInput,
+      numadults: parseInt(adultsInput),
+      numchild: parseInt(childrenInput),
+      rooms: parseInt(roomInput)
+    };
+  }
 
   var trips = await searchTripsAPI(params);
 
