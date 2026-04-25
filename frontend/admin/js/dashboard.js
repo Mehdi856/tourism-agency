@@ -1,269 +1,214 @@
 /* ================================================
    DASHBOARD — JavaScript
+   Linked to: GET /admin/overview via api.js → getOverview()
    ================================================ */
 
 (function () {
   'use strict';
 
-  /* ============================================================
-     API CONFIG
-     Replace base URL and endpoint paths to match your backend.
-     All endpoints should return JSON.
-  ============================================================ */
-  const API_BASE = '/api';
-
-  const ENDPOINTS = {
-    metrics:        `${API_BASE}/dashboard/metrics`,
-    bookingTrends:  `${API_BASE}/dashboard/booking-trends`,
-    topRoutes:      `${API_BASE}/dashboard/top-routes`,
-    recentBookings: `${API_BASE}/bookings/recent?limit=5`,
-    currentUser:    `${API_BASE}/auth/me`,
-  };
-
-  /* ============================================================
-     HELPERS
-  ============================================================ */
   function currency(value) {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
   }
 
-  function pct(num) {
-    return `${num >= 0 ? '+' : ''}${num}%`;
-  }
-
-  async function apiFetch(url) {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return res.json();
-  }
-
   /* ============================================================
-     CURRENT USER
+     CURRENT USER  (read from localStorage — set at login)
   ============================================================ */
-  async function loadCurrentUser() {
-    try {
-      const user = await apiFetch(ENDPOINTS.currentUser);
-      document.getElementById('adminName').textContent = user.name || 'Administrator';
-      document.getElementById('adminRole').textContent = user.role || 'Admin';
-      const avatar = document.getElementById('adminAvatar');
-      if (user.avatarUrl) avatar.src = user.avatarUrl;
-    } catch (_) {
-      /* silently fail — defaults already set in HTML */
-    }
+  function loadCurrentUser() {
+    const username = localStorage.getItem('username') || 'Administrator';
+    const nameEl = document.getElementById('adminName');
+    const roleEl = document.getElementById('adminRole');
+    if (nameEl) nameEl.textContent = username;
+    if (roleEl) roleEl.textContent = 'Admin';
   }
 
   /* ============================================================
      KPI METRICS
+     Backend fields: total_revenue, total_bookings, pending_count, active_trips, top_routes
   ============================================================ */
-  async function loadMetrics() {
-    try {
-      const m = await apiFetch(ENDPOINTS.metrics);
+  function renderMetrics(data) {
+    const revenueEl = document.getElementById('totalRevenue');
+    if (revenueEl) revenueEl.textContent = currency(data.total_revenue);
 
-      document.getElementById('totalRevenue').textContent  = currency(m.totalRevenue);
-      document.getElementById('revenueChange').textContent = pct(m.revenueChangePct);
-      document.getElementById('revenueTarget').textContent = `Target: ${currency(m.revenueTarget)}`;
-      document.getElementById('revenueBar').style.width    = `${Math.min(100, (m.totalRevenue / m.revenueTarget) * 100).toFixed(1)}%`;
+    const revenueBarEl = document.getElementById('revenueBar');
+    if (revenueBarEl) revenueBarEl.style.width = '100%';
 
-      document.getElementById('totalBookings').textContent = m.totalBookings.toLocaleString();
-      document.getElementById('bookingsChange').textContent = pct(m.bookingsChangePct);
-      document.getElementById('pendingCount').textContent  = `${m.pendingApproval} pending approval`;
+    const revenueChangeEl = document.getElementById('revenueChange');
+    if (revenueChangeEl) revenueChangeEl.textContent = '';
 
-      document.getElementById('activeTrips').textContent   = m.activeTrips.toLocaleString();
-      document.getElementById('topHubs').textContent       = `Top hubs: ${m.topHubs.join(', ')}`;
-    } catch (err) {
-      console.error('Failed to load metrics:', err);
-      ['totalRevenue','totalBookings','activeTrips'].forEach(id => {
-        document.getElementById(id).textContent = 'N/A';
-      });
+    const revenueTargetEl = document.getElementById('revenueTarget');
+    if (revenueTargetEl) revenueTargetEl.textContent = '';
+
+    const bookingsEl = document.getElementById('totalBookings');
+    if (bookingsEl) bookingsEl.textContent = data.total_bookings.toLocaleString();
+
+    const bookingsChangeEl = document.getElementById('bookingsChange');
+    if (bookingsChangeEl) bookingsChangeEl.textContent = '';
+
+    const pendingEl = document.getElementById('pendingCount');
+    if (pendingEl) pendingEl.textContent = `${data.pending_count} pending approval`;
+
+    const activeEl = document.getElementById('activeTrips');
+    if (activeEl) activeEl.textContent = data.active_trips.toLocaleString();
+
+    const topHubsEl = document.getElementById('topHubs');
+    if (topHubsEl && data.top_routes?.length) {
+      topHubsEl.textContent = `Top hubs: ${data.top_routes.map(r => r.country).join(', ')}`;
     }
   }
 
   /* ============================================================
-     BOOKING TRENDS CHART
+     BOOKING TRENDS CHART  (no backend endpoint — placeholder)
   ============================================================ */
-  async function loadBookingTrends(period = 6) {
+  function loadBookingTrends() {
     const container = document.getElementById('barChart');
-
-    try {
-      const data = await apiFetch(`${ENDPOINTS.bookingTrends}?months=${period}`);
-      /*
-        Expected shape: [{ month: "Jan", value: 120 }, ...]
-        Max value used to calculate relative bar heights.
-      */
-      const max = Math.max(...data.map(d => d.value));
-      const peakMonth = data.reduce((a, b) => a.value > b.value ? a : b);
-
-      container.innerHTML = data.map(item => {
-        const heightPct = max > 0 ? ((item.value / max) * 85 + 10).toFixed(1) : 10;
-        const isPeak    = item.month === peakMonth.month;
-        return `
-          <div class="bar-col${isPeak ? ' peak' : ''}">
-            <div
-              class="bar-fill-col${isPeak ? ' peak' : ''}"
-              style="height:${heightPct}%"
-              data-value="${item.value} bookings"
-            >${isPeak ? '<span class="bar-peak-label">Peak</span>' : ''}</div>
-            <span class="bar-month">${item.month}</span>
-          </div>`;
-      }).join('');
-    } catch (_) {
+    if (container) {
       container.innerHTML = '<p style="color:var(--outline);font-size:13px;text-align:center;width:100%;">Chart data unavailable</p>';
     }
   }
 
-  document.getElementById('trendPeriod').addEventListener('change', function () {
-    loadBookingTrends(parseInt(this.value));
-  });
+  const trendPeriodEl = document.getElementById('trendPeriod');
+  if (trendPeriodEl) trendPeriodEl.addEventListener('change', loadBookingTrends);
 
   /* ============================================================
      TOP ROUTES
+     Backend fields: [{ country, bookings }]
   ============================================================ */
-  async function loadTopRoutes() {
+  function renderTopRoutes(routes) {
     const list = document.getElementById('routesList');
+    if (!list) return;
 
-    try {
-      const routes = await apiFetch(ENDPOINTS.topRoutes);
-      /*
-        Expected shape: [{ name: "Denpasar, Bali", pct: 88, thumbUrl: "..." }, ...]
-      */
-      list.innerHTML = routes.slice(0, 4).map(r => `
+    if (!routes?.length) {
+      list.innerHTML = '<p style="color:rgba(255,255,255,0.4);font-size:13px;">No route data yet.</p>';
+      return;
+    }
+
+    const maxBookings = Math.max(...routes.map(r => r.bookings));
+
+    list.innerHTML = routes.slice(0, 4).map(r => {
+      const pct = maxBookings > 0 ? Math.round((r.bookings / maxBookings) * 100) : 0;
+      return `
         <div class="route-item">
-          <img class="route-thumb" src="${r.thumbUrl || ''}" alt="${r.name}"
-               onerror="this.style.background='rgba(255,255,255,0.1)';this.style.display='block';" />
           <div class="route-info">
             <div class="route-info-top">
-              <span>${r.name}</span>
-              <span class="route-pct">${r.pct}%</span>
+              <span>${r.country}</span>
+              <span class="route-pct">${r.bookings} bookings</span>
             </div>
             <div class="progress-track">
-              <div class="progress-fill" style="width:${r.pct}%"></div>
+              <div class="progress-fill" style="width:${pct}%"></div>
             </div>
           </div>
-        </div>
-      `).join('');
-    } catch (_) {
-      list.innerHTML = '<p style="color:rgba(255,255,255,0.4);font-size:13px;">Route data unavailable</p>';
-    }
+        </div>`;
+    }).join('');
   }
 
-  document.getElementById('viewAllRoutesBtn').addEventListener('click', () => {
-    window.location.href = 'destinationPackagaes.html';
-  });
+  const viewAllBtn = document.getElementById('viewAllRoutesBtn');
+  if (viewAllBtn) {
+    viewAllBtn.addEventListener('click', () => {
+      window.location.href = 'destinationPackagaes.html';
+    });
+  }
 
   /* ============================================================
      RECENT BOOKINGS
+     Backend fields: transaction_code, customer_name, customer_email,
+                     trip_name, country, confirmed, revenue
   ============================================================ */
-  const STATUS_BADGE = {
-    confirmed:  'badge-confirmed',
-    processing: 'badge-processing',
-    pending:    'badge-pending',
-    cancelled:  'badge-cancelled',
-  };
-
-  const TYPE_BADGE = {
-    vip:      'badge-vip',
-    regular:  'badge-regular',
-    new:      'badge-new',
-  };
-
   function buildBookingRow(b) {
-    const statusClass = STATUS_BADGE[b.status?.toLowerCase()] || 'badge-processing';
-    const typeClass   = TYPE_BADGE[b.customerType?.toLowerCase()] || 'badge-regular';
-    const hasDot      = ['confirmed','processing','pending'].includes(b.status?.toLowerCase());
+    const statusClass = b.confirmed ? 'badge-confirmed' : 'badge-pending';
+    const statusLabel = b.confirmed ? 'Confirmed' : 'Pending';
+    const initials    = (b.customer_name || '?')[0].toUpperCase();
 
     return `
       <tr>
         <td>
           <div class="customer-cell">
-            <img src="${b.customer.avatarUrl || ''}" alt="${b.customer.name}"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="avatar-initials" style="display:none;">${(b.customer.name || '?')[0]}</div>
+            <div class="avatar-initials">${initials}</div>
             <div>
-              <p class="customer-name">${b.customer.name || '—'}</p>
-              <p class="customer-email">${b.customer.email || ''}</p>
+              <p class="customer-name">${b.customer_name || '—'}</p>
+              <p class="customer-email">${b.customer_email || ''}</p>
             </div>
           </div>
         </td>
         <td>
-          <p class="dest-name">${b.destination || '—'}</p>
-          <p class="dest-sub">${b.travelClass || ''} · ${b.date || ''}</p>
+          <p class="dest-name">${b.trip_name || '—'}</p>
+          <p class="dest-sub">${b.country || ''}</p>
         </td>
         <td>
-          <span class="badge ${typeClass}">${b.customerType || '—'}</span>
+          <span class="badge badge-regular">${b.transaction_code || '—'}</span>
         </td>
         <td>
           <span class="badge ${statusClass}">
-            ${hasDot ? '<span class="badge-dot"></span>' : ''}
-            ${b.status || '—'}
+            <span class="badge-dot"></span>
+            ${statusLabel}
           </span>
         </td>
         <td class="revenue-value">${b.revenue != null ? currency(b.revenue) : '—'}</td>
         <td>
           <div class="row-actions">
-            <button class="action-btn primary-action" title="View" onclick="viewBooking('${b.id}')">
+            <button class="action-btn primary-action" title="View"
+              onclick="viewBooking('${b.transaction_code}')">
               <span class="material-symbols-outlined">visibility</span>
-            </button>
-            <button class="action-btn" title="Edit" onclick="editBooking('${b.id}')">
-              <span class="material-symbols-outlined">edit</span>
             </button>
           </div>
         </td>
       </tr>`;
   }
 
-  async function loadRecentBookings() {
+  function renderRecentBookings(bookings) {
     const tbody = document.getElementById('recentBookingsTbody');
+    if (!tbody) return;
 
-    try {
-      const bookings = await apiFetch(ENDPOINTS.recentBookings);
-
-      if (!bookings.length) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--outline);">No bookings yet.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = bookings.map(buildBookingRow).join('');
-    } catch (err) {
-      console.error('Failed to load bookings:', err);
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--outline);">Could not load bookings.</td></tr>';
+    if (!bookings?.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--outline);">No bookings yet.</td></tr>';
+      return;
     }
+
+    tbody.innerHTML = bookings.map(buildBookingRow).join('');
   }
 
   /* ============================================================
-     BOOKING ACTIONS (placeholders — connect to your router)
+     BOOKING ACTIONS
   ============================================================ */
-  window.viewBooking = function (id) {
-    window.location.href = `bookingMang.html?id=${id}`;
-  };
-
-  window.editBooking = function (id) {
-    window.location.href = `bookingMang.html?edit=${id}`;
+  window.viewBooking = function (transactionCode) {
+    window.location.href = `bookingMang.html?id=${transactionCode}`;
   };
 
   /* ============================================================
      HEADER BUTTONS
   ============================================================ */
-  document.getElementById('downloadReportBtn').addEventListener('click', async () => {
-    // Trigger a report download from backend
-    window.location.href = `${API_BASE}/reports/dashboard/download`;
-  });
+  const downloadBtn = document.getElementById('downloadReportBtn');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', () => {
+      alert('Report download — not yet connected to backend.');
+    });
+  }
 
-  document.getElementById('liveViewBtn').addEventListener('click', () => {
-    // Replace with your live-view route / modal
-    alert('Live view feature — connect to your real-time endpoint.');
-  });
+  const liveViewBtn = document.getElementById('liveViewBtn');
+  if (liveViewBtn) {
+    liveViewBtn.addEventListener('click', () => {
+      alert('Live view — not yet connected to backend.');
+    });
+  }
 
   /* ============================================================
      INIT
   ============================================================ */
   async function init() {
-    await Promise.allSettled([
-      loadCurrentUser(),
-      loadMetrics(),
-      loadBookingTrends(6),
-      loadTopRoutes(),
-      loadRecentBookings(),
-    ]);
+    loadCurrentUser();
+    loadBookingTrends();
+
+    try {
+      const data = await getOverview(); // → api.js: GET /admin/overview
+      renderMetrics(data);
+      renderTopRoutes(data.top_routes);
+      renderRecentBookings(data.recent_bookings);
+    } catch (err) {
+      console.error('Failed to load dashboard:', err);
+      ['totalRevenue', 'totalBookings', 'activeTrips'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = 'N/A';
+      });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

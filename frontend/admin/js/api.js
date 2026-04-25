@@ -43,3 +43,14 @@ async function addPackage(payload) {
 
   return res.json();
 }
+
+async function getOverview() {
+  const res = await fetch(`${BASE_URL}/admin/overview`, {
+    headers: getAuthHeaders(),
+  });
+
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+  const json = await res.json();
+  return json.res; // backend wraps in { res: ..., User: ... }
+}
