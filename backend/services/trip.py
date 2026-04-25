@@ -6,7 +6,7 @@ from models.models import Trip
 # Get all visual trips for frontend display
 async def visualize_trips():
     try:
-        resp = supabase.table("trip").select("*,hotel(*)").eq("visual", True).execute()
+        resp = supabase.table("trip").select("*,hotel(*),flight(*)").eq("visual", True).execute()
         return resp.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -38,10 +38,11 @@ async def get_trip_details(trip_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Add a new trip (admin only) — hotel & flights are created first, then linked to the trip
+# Add a new trip (admin only)
+# New schema: trip.flight_id → flight.id  (flight is inserted first)
 async def add_trip(data: Trip):
     try:
-        # Step 1: Insert the hotel and get its generated ID
+        # Step 1: Insert hotel
         hotel_resp = (
             supabase.table("hotel")
             .insert({
@@ -56,7 +57,28 @@ async def add_trip(data: Trip):
 
         hotel_id = hotel_resp.data[0]["id"]
 
-        # Step 2: Insert the trip linked to the newly created hotel
+        # Step 2: Insert outbound flight first — trip.flight_id will reference it
+        outbound_resp = (
+            supabase.table("flight")
+            .insert({
+                "company": data.outbound_flight.company,
+                "flight_code": data.outbound_flight.flight_code,
+                "class": data.outbound_flight.class_,
+                "departure_location": data.outbound_flight.departure_location,
+                "departure_time": data.outbound_flight.departure_time,
+                "arrival_location": data.outbound_flight.arrival_location,
+                "arrival_time": data.outbound_flight.arrival_time,
+                "duration": data.outbound_flight.duration,
+                "is_direct": data.outbound_flight.is_direct,
+            })
+            .execute()
+        )
+        if not outbound_resp.data:
+            raise HTTPException(status_code=500, detail="Failed to create outbound flight")
+
+        flight_id = outbound_resp.data[0]["id"]
+
+        # Step 3: Insert trip with hotel_id and flight_id
         trip_resp = (
             supabase.table("trip")
             .insert({
@@ -72,30 +94,17 @@ async def add_trip(data: Trip):
                 "room": data.room,
                 "country": data.country,
                 "hotel_id": hotel_id,
+                "flight_id": flight_id,
             })
             .execute()
         )
         if not trip_resp.data:
             raise HTTPException(status_code=500, detail="Failed to create trip")
 
-        trip_id = trip_resp.data[0]["id"]
-
-        # Step 3: Insert both flights (outbound + return) linked to the trip
-        flights_to_insert = [
-            {
-                "trip_id": trip_id,
-                "company": data.outbound_flight.company,
-                "flight_code": data.outbound_flight.flight_code,
-                "class": data.outbound_flight.class_,
-                "departure_location": data.outbound_flight.departure_location,
-                "departure_time": data.outbound_flight.departure_time,
-                "arrival_location": data.outbound_flight.arrival_location,
-                "arrival_time": data.outbound_flight.arrival_time,
-                "duration": data.outbound_flight.duration,
-                "is_direct": data.outbound_flight.is_direct,
-            },
-            {
-                "trip_id": trip_id,
+        # Step 4: Insert return flight (no FK link in new schema — flight table has no trip_id)
+        return_resp = (
+            supabase.table("flight")
+            .insert({
                 "company": data.return_flight.company,
                 "flight_code": data.return_flight.flight_code,
                 "class": data.return_flight.class_,
@@ -105,22 +114,18 @@ async def add_trip(data: Trip):
                 "arrival_time": data.return_flight.arrival_time,
                 "duration": data.return_flight.duration,
                 "is_direct": data.return_flight.is_direct,
-            },
-        ]
-
-        flights_resp = (
-            supabase.table("flight")
-            .insert(flights_to_insert)
+            })
             .execute()
         )
-        if not flights_resp.data:
-            raise HTTPException(status_code=500, detail="Failed to create flights")
+        if not return_resp.data:
+            raise HTTPException(status_code=500, detail="Failed to create return flight")
 
         return {
             "message": "Trip created successfully",
             "trip": trip_resp.data[0],
             "hotel": hotel_resp.data[0],
-            "flights": flights_resp.data,
+            "outbound_flight": outbound_resp.data[0],
+            "return_flight": return_resp.data[0],
         }
 
     except HTTPException:
