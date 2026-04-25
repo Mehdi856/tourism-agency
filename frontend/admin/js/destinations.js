@@ -38,7 +38,7 @@
   /* ---- Parse duration days from "[2025-06-01,2025-06-10]" ---- */
   function parseDuration(dateRange) {
     try {
-      const clean = String(dateRange).replace('[', '').replace(']', '');
+      const clean = String(dateRange).replace(/[\[\]\(\)]/g, '').trim();
       const [start, end] = clean.split(',').map(d => new Date(d.trim()));
       const diff = Math.round((end - start) / (1000 * 60 * 60 * 24));
       return diff > 0 ? diff : '—';
@@ -57,6 +57,9 @@
       imageUrl:              (trip.media && trip.media[0]) || (trip.hotel && trip.hotel.img) || '',
       price:                 parsePrice(trip.price),
       durationDays:          parseDuration(trip.date),
+      daysLeft:              trip.expired
+        ? new Date(trip.expired).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+        : '—',
       tags:                  [
                                trip.hotel ? trip.hotel.name : null,
                                trip.adults ? `${trip.adults} Adults` : null,
@@ -389,8 +392,12 @@
                   <p class="package-price">$${p.price.toLocaleString()}</p>
                 </div>
                 <div class="package-duration-block">
-                  <p>Duration</p>
+                  <p>Trip Duration</p>
                   <p class="package-duration">${p.durationDays} Days</p>
+                </div>
+                <div class="package-duration-block">
+                  <p>Offer Expires</p>
+                  <p class="package-duration" style="font-size:18px;">${p.daysLeft}</p>
                 </div>
               </div>
               <div class="featured-actions">
@@ -430,8 +437,12 @@
               <p class="package-price" style="font-size:22px;">$${p.price.toLocaleString()}</p>
             </div>
             <div class="package-duration-block">
-              <p>Duration</p>
+              <p>Trip Duration</p>
               <p class="package-duration" style="font-size:16px;">${p.durationDays} Days</p>
+            </div>
+            <div class="package-duration-block">
+              <p>Offer Expires</p>
+              <p class="package-duration" style="font-size:14px;">${p.daysLeft}</p>
             </div>
           </div>
         </div>

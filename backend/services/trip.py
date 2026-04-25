@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from datetime import timedelta
 from db.supabase import supabase
 from models.models import Trip
 
@@ -121,6 +122,7 @@ async def add_trip(data: Trip):
                 "hotel_id": hotel_id,
                 "outbound_flight": outbound_flight_id,
                 "return_flight": return_flight_id,
+                "expired": (data.start_date - timedelta(days=3)).isoformat(),
             })
             .execute()
         )
