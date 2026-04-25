@@ -12,7 +12,7 @@ async def search_trips(startdate, enddate, location, numadults, numchild, rooms)
         query = (
             supabase
             .table("trip")
-            .select("*, hotel(*)")
+            .select("*, hotel(*),outbound_flight(*),return_flight(*)")
             .eq("adults", numadults)
             .eq("children", numchild)
             .eq("room", rooms)
@@ -22,6 +22,9 @@ async def search_trips(startdate, enddate, location, numadults, numchild, rooms)
         use_date_filter = startdate not in (None, "null") and enddate not in (None, "null")
         if use_date_filter:
             query = query.filter("date", "cs", f"[{startdate},{enddate})")
+        
+        today = datetime.now().date()
+        query = query.gt("expired", today)
 
         return query.execute().data
 

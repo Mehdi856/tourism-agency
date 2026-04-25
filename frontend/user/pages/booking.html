@@ -15,12 +15,12 @@
   <div class="logo">
     <img src="../images/Logo.jpeg" alt="MakeMYtrip Logo">
   </div>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="search.html">Search</a></li>
-    <li><a href="details.html">Trip Details</a></li>
-    <li><a href="booking.html" class="active">Bookings</a></li>
-  </ul>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="search.html">Search</a>
+    <a href="details.html">Trip Details</a>
+    <a href="booking.html" class="active">Bookings</a>
+  </div>
 </nav>
 
 <!-- ========== PAGE BODY ========== -->
@@ -29,14 +29,19 @@
 
     <!-- Left panel — destination image -->
     <div class="left-panel" id="leftPanel">
-      <img class="bg"
+      <!--
+        FIX: id="booking-bg-image" added so JS can swap the image
+        to match the selected trip's media instead of showing a
+        hardcoded Alpine photo.
+      -->
+      <img class="bg" id="booking-bg-image"
         src="https://img.freepik.com/photos-premium/maison-bois-solitaire-montagne-parmi-neige_108280-2805.jpg?semt=ais_hybrid&w=740&q=80"
-        alt="Snowy mountain chalet"
+        alt="Trip destination"
         onerror="this.src='https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=90'">
       <div class="overlay">
-        <div class="featured-tag">Featured Retreat</div>
-        <h2 id="booking-trip-name">The Alpine Sanctuary</h2>
-        <p id="booking-trip-desc">Experience serenity in the heart of the peaks.<br>Your bespoke journey begins with a single detail.</p>
+        <div class="featured-tag">Your Selected Trip</div>
+        <h2 id="booking-trip-name">Loading...</h2>
+        <p id="booking-trip-desc">Your bespoke journey begins with a single detail.</p>
       </div>
     </div>
 
@@ -45,29 +50,31 @@
       <h1>Personal Information</h1>
       <p class="subtitle">Complete your booking details to secure your curated experience.</p>
 
+      <!-- Primary traveller -->
       <div class="form-row two">
         <div class="form-group">
-          <label>First Name</label>
-          <input type="text" placeholder="John" id="firstName" oninput="lettersOnly(this)">
+          <label>First Name <span class="required">*</span></label>
+          <input type="text" placeholder="John" id="firstName" oninput="lettersOnly(this)" autocomplete="given-name">
         </div>
         <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" placeholder="Doe" id="lastName" oninput="lettersOnly(this)">
+          <label>Last Name <span class="required">*</span></label>
+          <input type="text" placeholder="Doe" id="lastName" oninput="lettersOnly(this)" autocomplete="family-name">
         </div>
       </div>
 
       <div class="form-row three">
         <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="john.doe@example.com" id="email">
+          <label>Email Address <span class="required">*</span></label>
+          <input type="email" placeholder="john.doe@example.com" id="email" autocomplete="email">
         </div>
         <div class="form-group">
           <label>Phone Number</label>
-          <input type="tel" placeholder="+1 (555) 000-0000" id="phone">
+          <input type="tel" placeholder="+213 555 000 000" id="phone" autocomplete="tel">
         </div>
         <div class="form-group">
-          <label>Age</label>
-          <input type="number" placeholder="25" id="age" min="1" max="120">
+          <label>Date of Birth</label>
+          <!-- max is set to today's date by booking.js on DOMContentLoaded -->
+          <input type="date" id="dob" autocomplete="bday">
         </div>
       </div>
 
@@ -78,20 +85,20 @@
         <span id="traveller-summary-text">Loading traveller info...</span>
       </div>
 
-      <!-- Extra Traveler Cards -->
+      <!-- Extra Traveler Cards (rendered by JS) -->
       <div class="extra-travelers" id="extraTravelers"></div>
 
-      <!-- Info box -->
+      <!-- Info note -->
       <div class="info-box">
         <span style="font-size:14px;flex-shrink:0;">&#8505;</span>
-        <span>We will contact you to confirm the booking and complete traveler information.</span>
+        <span>We will contact you to confirm the booking and complete any remaining traveller information.</span>
       </div>
 
-      <!-- Price row -->
+      <!-- Price summary row -->
       <div class="price-row">
         <span class="price-label">Estimated Total</span>
         <div style="text-align:right;">
-          <div class="price-amount" id="booking-price">&euro;4,850</div>
+          <div class="price-amount" id="booking-price">&euro;—</div>
           <div class="price-note">INCLUDES TAXES AND FEES</div>
         </div>
       </div>

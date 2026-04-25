@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MakeMYtrip - Positano, Italy</title>
+  <title>MakeMYtrip - Trip Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/shared.css">
   <link rel="stylesheet" href="../css/details.css">
@@ -24,12 +24,12 @@
 
 <!-- ========== HERO BANNER ========== -->
 <div class="hero-banner">
-  <img id="hero-image" src="https://pohcdn.com/sites/default/files/styles/paragraph__live_banner__lb_image__1880bp/public/live_banner/positano.jpg" alt="Positano Italy">
+  <img id="hero-image" src="https://pohcdn.com/sites/default/files/styles/paragraph__live_banner__lb_image__1880bp/public/live_banner/positano.jpg" alt="Trip">
   <div class="hero-banner-overlay"></div>
   <div class="hero-banner-label">
     <div class="trip-summary-tag">&#9992; Trip Summary</div>
-    <h1 id="hero-title">Positano, Italy</h1>
-    <p id="hero-subtitle">8 Days / 7 Nights &nbsp;&middot;&nbsp; 2 Adults</p>
+    <h1 id="hero-title">Loading...</h1>
+    <p id="hero-subtitle">-- Days / -- Nights</p>
   </div>
 </div>
 
@@ -49,50 +49,50 @@
         <span class="confirmed-badge">CONFIRMED</span>
       </div>
 
-      <!-- Outbound -->
+      <!-- Outbound Flight -->
       <div class="flight-row">
-        <div class="airline-logo">AZ</div>
+        <div class="airline-logo" id="outbound-logo">✈</div>
         <div class="flight-info">
-          <div class="airline-name">Alitalia</div>
-          <div class="flight-code">AZ 204 &middot; Economy</div>
+          <div class="airline-name" id="outbound-airline">—</div>
+          <div class="flight-code"  id="outbound-code">—</div>
         </div>
         <div class="flight-times">
           <div class="flight-time">
-            <div class="time">10:45</div>
-            <div class="airport">LHR &middot; London</div>
+            <div class="time"    id="outbound-dep-time">--:--</div>
+            <div class="airport" id="outbound-dep-airport">—</div>
           </div>
           <div class="flight-arrow">
-            <div class="flight-duration">2h 15m</div>
+            <div class="flight-duration" id="outbound-duration">—</div>
             <div class="arrow-line"></div>
-            <div class="flight-stops">Direct</div>
+            <div class="flight-stops"   id="outbound-stops">—</div>
           </div>
           <div class="flight-time">
-            <div class="time">14:30</div>
-            <div class="airport">NAP &middot; Naples</div>
+            <div class="time"    id="outbound-arr-time">--:--</div>
+            <div class="airport" id="outbound-arr-airport">—</div>
           </div>
         </div>
       </div>
 
-      <!-- Return -->
+      <!-- Return Flight -->
       <div class="flight-row">
-        <div class="airline-logo">AZ</div>
+        <div class="airline-logo" id="return-logo">✈</div>
         <div class="flight-info">
-          <div class="airline-name">Alitalia</div>
-          <div class="flight-code">AZ 205 &middot; Economy</div>
+          <div class="airline-name" id="return-airline">—</div>
+          <div class="flight-code"  id="return-code">—</div>
         </div>
         <div class="flight-times">
           <div class="flight-time">
-            <div class="time">16:15</div>
-            <div class="airport">NAP &middot; Naples</div>
+            <div class="time"    id="return-dep-time">--:--</div>
+            <div class="airport" id="return-dep-airport">—</div>
           </div>
           <div class="flight-arrow">
-            <div class="flight-duration">2h 55m</div>
+            <div class="flight-duration" id="return-duration">—</div>
             <div class="arrow-line"></div>
-            <div class="flight-stops">Direct</div>
+            <div class="flight-stops"   id="return-stops">—</div>
           </div>
           <div class="flight-time">
-            <div class="time">18:10</div>
-            <div class="airport">LHR &middot; London</div>
+            <div class="time"    id="return-arr-time">--:--</div>
+            <div class="airport" id="return-arr-airport">—</div>
           </div>
         </div>
       </div>
@@ -111,34 +111,34 @@
         <div class="stars" id="hotel-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
       </div>
       <div class="hotel-card">
-        <img class="hotel-img" id="hotel-image" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&q=80" alt="Le Sirenuse Positano">
+        <img class="hotel-img" id="hotel-image" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&q=80" alt="Hotel">
         <div class="hotel-info">
-          <div class="hotel-name" id="hotel-name">Le Sirenuse Positano</div>
-          <div class="hotel-address">
+          <div class="hotel-name" id="hotel-name">—</div>
+          <div class="hotel-address" id="hotel-address">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
               <circle cx="12" cy="10" r="3"/>
             </svg>
-            Via Cristoforo Colombo, 30, 84017 Positano SA
+            <span id="hotel-address-text">—</span>
           </div>
           <div class="hotel-feature">
             <div class="hotel-feature-icon">&#128716;</div>
             <div>
-              <div class="hotel-feature-text">Deluxe Sea View Room</div>
-              <div class="hotel-feature-sub">King bed, Private terrace, Marble bathroom with high-end amenities</div>
+              <div class="hotel-feature-text" id="hotel-room-type">Room</div>
+              <div class="hotel-feature-sub"  id="hotel-room-desc">—</div>
             </div>
           </div>
           <div class="hotel-feature">
             <div class="hotel-feature-icon">&#127869;</div>
             <div>
               <div class="hotel-feature-text">Breakfast Included</div>
-              <div class="hotel-feature-sub">Full Italian buffet at the Michelin-starred La Sponda restaurant</div>
+              <div class="hotel-feature-sub">Full buffet breakfast included in your stay</div>
             </div>
           </div>
-          <div class="hotel-amenities">
-            <div class="amenity">&#9854; Infinity Pool</div>
-            <div class="amenity amenity--gap">&#128134; Luxury Spa</div>
-            <div class="amenity amenity--gap">&#128246; High-speed WiFi</div>
+          <div class="hotel-amenities" id="hotel-amenities">
+            <div class="amenity">&#9854; Pool</div>
+            <div class="amenity amenity--gap">&#128134; Spa</div>
+            <div class="amenity amenity--gap">&#128246; WiFi</div>
           </div>
         </div>
       </div>
@@ -151,11 +151,11 @@
     <h3>Price Summary</h3>
     <div class="price-row">
       <span class="label" id="label-flights">Flights</span>
-      <span class="amount" id="price-flights">&euro;840.00</span>
+      <span class="amount" id="price-flights">—</span>
     </div>
     <div class="price-row">
       <span class="label" id="label-hotel">Hotel</span>
-      <span class="amount" id="price-hotel">&euro;3,640.00</span>
+      <span class="amount" id="price-hotel">—</span>
     </div>
     <div class="price-row">
       <span class="label">Airport Transfers</span>
@@ -163,15 +163,15 @@
     </div>
     <div class="price-row">
       <span class="label">Taxes &amp; Fees</span>
-      <span class="amount" id="price-taxes">&euro;370.00</span>
+      <span class="amount" id="price-taxes">—</span>
     </div>
     <hr class="price-divider">
     <div class="price-total">
       <span class="label">Total<br>Price</span>
-      <span class="total-amount" id="price-total">&euro;4,850.00</span>
+      <span class="total-amount" id="price-total">—</span>
     </div>
     <div class="price-total-sub" id="label-total-people">All inclusive</div>
-    <button class="btn-confirm" onclick="window.location.href='booking.html'">Confirm Selection</button>
+    <button class="btn-confirm" onclick="confirmSelection()">Confirm Selection</button>
     <div class="guarantee">&#10003; Best Price Guarantee</div>
     <div class="cancellation-note">
       <span class="info-icon">&#8505;</span>

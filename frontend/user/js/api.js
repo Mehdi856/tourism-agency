@@ -58,7 +58,14 @@ async function searchTripsAPI(params) {
       Body: { fullname, phonnum, email, birthdate, trip_id }
       Returns: { message, transaction_code, customer_id, trip_id }
    ───────────────────────────────────────────────────────────── */
-
+async function registerAndReserve(data) {
+  var response = await fetch(API_BASE_URL + "/register_and_reserve", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  return _handleResponse(response);
+}
 /* ─────────────────────────────────────────────────────────────
    4. RESERVE ONLY  (existing customer by email)
       POST /reserve

@@ -371,3 +371,17 @@ function changeCount(type, delta) {
   countEl.textContent = newCount;
 }
 
+
+function viewDetails(tripId) {
+  var trip = allTrips.find(function (t) {
+    return String(t.id) === String(tripId);
+  });
+
+  if (!trip) {
+    console.warn("Trip not found:", tripId);
+    return;
+  }
+
+  sessionStorage.setItem("selectedTrip", JSON.stringify(trip));
+  window.location.href = "details.html";
+}
