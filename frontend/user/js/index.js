@@ -60,6 +60,87 @@ async function loadVisualTrips() {
   }
 }
 
+async function loadLocalTrips() {
+  var container = document.querySelector(".local-trips-grid");
+
+  if (!container) {
+    console.error("Container not found");
+    return;
+  }
+
+  container.innerHTML = skeletonCardHTML(4);
+
+  try {
+    var trips = await fetchLocalTrips();
+
+    if (trips && trips.length > 0) {
+      container.innerHTML = "";
+
+      trips.forEach(function(trip) {
+        const tripCard = document.createElement("div");
+        tripCard.className = "trip-card";
+
+        // Image
+        const image = document.createElement("img");
+        image.className = "trip-img";
+        image.src = trip.media[0];
+        image.alt = trip.name;
+        tripCard.appendChild(image);
+
+        // Body
+        const tripBody = document.createElement("div");
+        tripBody.className = "trip-body";
+
+        const tripType = document.createElement("div");
+        tripType.className = "trip-type";
+        tripType.textContent = trip.type ?? "Popular"; // adjust to your data shape
+        tripBody.appendChild(tripType);
+
+        const tripTitle = document.createElement("div");
+        tripTitle.className = "trip-title";
+        tripTitle.textContent = trip.name;
+        tripBody.appendChild(tripTitle);
+
+        const tripLocation = document.createElement("div");
+        tripLocation.className = "trip-location";
+        tripLocation.textContent = trip.country;
+        tripBody.appendChild(tripLocation);
+
+        // Footer
+        const tripFooter = document.createElement("div");
+        tripFooter.className = "trip-footer";
+
+        const tripPrice = document.createElement("div");
+        tripPrice.className = "trip-price";
+        tripPrice.innerHTML = `€${trip.price}<span>/ppt</span>`; // adjust to your data shape
+
+        const bookBtn = document.createElement("button");
+        bookBtn.className = "btn-book";
+        bookBtn.textContent = "Book Now";
+        bookBtn.addEventListener("click", () => {
+          // your booking logic here
+        });
+
+        tripFooter.appendChild(tripPrice);
+        tripFooter.appendChild(bookBtn);
+        tripBody.appendChild(tripFooter);
+
+        tripCard.appendChild(tripBody);
+        container.appendChild(tripCard);
+      });
+
+      showToast("Local trips loaded successfully", "success", 2000);
+    } else {
+      container.innerHTML = '';
+      showToast("No local trips available", "info");
+    }
+  } catch (err) {
+    container.innerHTML = '';
+    showToast("Using offline data — backend is not connected", "warning", 5000);
+    console.warn("Could not load local trips from API:", err.message);
+  }
+}
+
 async function searchTrips() {
   var locationInput = document.getElementById("inp-where").value.trim();
   var startDateInput = document.getElementById("inp-checkin").value;
@@ -110,8 +191,39 @@ function changeCount(type, delta) {
   countEl.textContent = newCount;
 }
 
+document.querySelectorAll("section").forEach(function (section) {
+  var arrows = section.querySelectorAll(".nav-arrow");
+  if (arrows.length < 2) return;
+
+  // Find the scrollable row inside this section
+  var row = section.querySelector(".cards-row, .trips-grid");
+  if (!row) return;
+
+  // Make the row horizontally scrollable
+  row.style.overflowX    = "auto";
+  row.style.scrollBehavior = "smooth";
+  row.style.display      = "flex";       // override grid so it scrolls
+  row.style.flexWrap     = "nowrap";
+
+  // Each card keeps a fixed width so they don't squish
+  row.querySelectorAll(".deal-card, .trip-card").forEach(function (card) {
+    card.style.minWidth = "240px";
+    card.style.flex     = "0 0 auto";
+  });
+
+  var scrollAmount = 260;
+
+  arrows[0].addEventListener("click", function () {
+    row.scrollLeft -= scrollAmount;
+  });
+
+  arrows[1].addEventListener("click", function () {
+    row.scrollLeft += scrollAmount;
+  });
+});
 
 /* ── Init ── */
 document.addEventListener("DOMContentLoaded", function () {
   loadVisualTrips();
+  loadLocalTrips();
 });

@@ -43,6 +43,19 @@ async def get_trip_details(trip_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+async def get_local_trips():
+    local="algeria"
+    try:
+        resp = (
+            supabase.table("trip")
+            .select("*, hotel(*), outbound_flight(*), return_flight(*)")
+            .like("country", f"%{local}%")
+            .execute()
+        )
+        return resp.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Add a new trip (admin only)
 async def add_trip(data: Trip):

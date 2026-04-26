@@ -40,6 +40,11 @@ async function fetchVisualTrips() {
   return _handleResponse(response);
 }
 
+
+async function fetchLocalTrips() {
+  var response = await fetch(API_BASE_URL + "/local_trips");
+  return _handleResponse(response);
+}
 /* ─────────────────────────────────────────────────────────────
    2. SEARCH TRIPS
       GET /search_trips?startdate=...&enddate=...&location=...&numadults=...&numchild=...
