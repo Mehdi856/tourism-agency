@@ -3,7 +3,7 @@
    js/index.js
    Depends on: api.js (loaded before this script)
    ============================================================ */
-
+var allTrips = [];
 async function loadVisualTrips() {
   var container = document.querySelector(".destinations-grid");
 
@@ -72,6 +72,7 @@ async function loadLocalTrips() {
 
   try {
     var trips = await fetchLocalTrips();
+    allTrips=trips || [];
 
     if (trips && trips.length > 0) {
       container.innerHTML = "";
@@ -117,8 +118,9 @@ async function loadLocalTrips() {
         const bookBtn = document.createElement("button");
         bookBtn.className = "btn-book";
         bookBtn.textContent = "Book Now";
+        bookBtn.value=trip.id
         bookBtn.addEventListener("click", () => {
-          // your booking logic here
+          viewDetails(trip.id);
         });
 
         tripFooter.appendChild(tripPrice);
@@ -221,9 +223,23 @@ document.querySelectorAll("section").forEach(function (section) {
     row.scrollLeft += scrollAmount;
   });
 });
+function viewDetails(tripId) {
+  sessionStorage.removeItem("selectedTripId");
+  var trip = allTrips.find(function (t) {
+    return String(t.id) === String(tripId);
+  });
+
+  if (!trip) {
+    console.warn("Trip not found:", tripId);
+    return;
+  }
+
+  sessionStorage.setItem("selectedTrip", JSON.stringify(trip));
+  window.location.href = "details.html";
+}
 
 /* ── Init ── */
 document.addEventListener("DOMContentLoaded", function () {
   loadVisualTrips();
-  console.log(loadLocalTrips());
+  loadLocalTrips();
 });

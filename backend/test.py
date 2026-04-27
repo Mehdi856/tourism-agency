@@ -152,12 +152,16 @@ BASE_URL = "http://localhost:8000"
 # ==============================================================================
 
 # ===============get overview (admin)===========================
-token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE3NzY5ODI1MzgsImV4cCI6MTc3NzA2ODkzOH0.YagkaJPeRP-uOSjR4UiAQBWHlGxcD6-pZQFU01wQgeE"  # replace with a fresh token
-response = requests.get(
-    f"{BASE_URL}/admin/overview",
-    headers={"Authorization": f"Bearer {token}"}
-)
+# token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE3NzY5ODI1MzgsImV4cCI6MTc3NzA2ODkzOH0.YagkaJPeRP-uOSjR4UiAQBWHlGxcD6-pZQFU01wQgeE"  # replace with a fresh token
+# response = requests.get(
+#     f"{BASE_URL}/admin/overview",
+#     headers={"Authorization": f"Bearer {token}"}
+# )
+# print(response.url)
+# print(response.status_code)
+# print(response.text)
+# ==============================================================================
+response = requests.get(f"{BASE_URL}/local_trips")
 print(response.url)
 print(response.status_code)
 print(response.text)
-# ==============================================================================

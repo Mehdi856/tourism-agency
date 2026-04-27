@@ -44,7 +44,7 @@ async def get_trip_details(trip_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 async def get_local_trips():
-    local="algeria"
+    local="Algeria"
     try:
         resp = (
             supabase.table("trip")
