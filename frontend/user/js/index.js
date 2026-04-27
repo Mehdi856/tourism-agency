@@ -61,7 +61,7 @@ async function loadVisualTrips() {
 }
 
 async function loadLocalTrips() {
-  var container = document.querySelector(".local-trips-grid");
+  var container = document.querySelector("#Local-trip");
 
   if (!container) {
     console.error("Container not found");
@@ -225,5 +225,5 @@ document.querySelectorAll("section").forEach(function (section) {
 /* ── Init ── */
 document.addEventListener("DOMContentLoaded", function () {
   loadVisualTrips();
-  loadLocalTrips();
+  console.log(loadLocalTrips());
 });

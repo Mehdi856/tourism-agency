@@ -44,3 +44,6 @@ __pycache__/
 .env
 __pycache__/
 .pyc
+.pyc
+.env
+__pycache__/
