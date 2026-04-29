@@ -9,6 +9,33 @@
   <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
+  <div id="travellers-dropdown" class="travellers-dropdown">
+        <div class="dropdown-row">
+          <div><div class="dropdown-label-main">Adults</div><div class="dropdown-label-sub">Age 18+</div></div>
+          <div class="counter-group">
+            <button class="count-btn" onclick="changeCount('adults',-1)">−</button>
+            <span id="count-adults" class="count-display">1</span>
+            <button class="count-btn plus" onclick="changeCount('adults',1)">+</button>
+          </div>
+        </div>
+        <div class="dropdown-row">
+          <div><div class="dropdown-label-main">Children</div><div class="dropdown-label-sub">Age 2–17</div></div>
+          <div class="counter-group">
+            <button class="count-btn" onclick="changeCount('children',-1)">−</button>
+            <span id="count-children" class="count-display">0</span>
+            <button class="count-btn plus" onclick="changeCount('children',1)">+</button>
+          </div>
+        </div>
+        <div class="dropdown-row">
+          <div><div class="dropdown-label-main">Rooms</div></div>
+          <div class="counter-group">
+            <button class="count-btn" onclick="changeCount('rooms',-1)">−</button>
+            <span id="count-rooms" class="count-display">1</span>
+            <button class="count-btn plus" onclick="changeCount('rooms',1)">+</button>
+          </div>
+        </div>
+        <button class="dropdown-done" onclick="toggleTravellersDropdown()">Done</button>
+      </div>
 
 <!-- ========== NAVBAR ========== -->
 <nav>
@@ -47,33 +74,6 @@
       <span class="search-label">Travellers &amp; Rooms</span>
       <input class="search-input" id="inp-travellers" type="text" placeholder="1 Adult, 1 Room" readonly
              onclick="toggleTravellersDropdown()" style="cursor:pointer;">
-      <div id="travellers-dropdown" class="travellers-dropdown">
-        <div class="dropdown-row">
-          <div><div class="dropdown-label-main">Adults</div><div class="dropdown-label-sub">Age 18+</div></div>
-          <div class="counter-group">
-            <button class="count-btn" onclick="changeCount('adults',-1)">−</button>
-            <span id="count-adults" class="count-display">1</span>
-            <button class="count-btn plus" onclick="changeCount('adults',1)">+</button>
-          </div>
-        </div>
-        <div class="dropdown-row">
-          <div><div class="dropdown-label-main">Children</div><div class="dropdown-label-sub">Age 2–17</div></div>
-          <div class="counter-group">
-            <button class="count-btn" onclick="changeCount('children',-1)">−</button>
-            <span id="count-children" class="count-display">0</span>
-            <button class="count-btn plus" onclick="changeCount('children',1)">+</button>
-          </div>
-        </div>
-        <div class="dropdown-row">
-          <div><div class="dropdown-label-main">Rooms</div></div>
-          <div class="counter-group">
-            <button class="count-btn" onclick="changeCount('rooms',-1)">−</button>
-            <span id="count-rooms" class="count-display">1</span>
-            <button class="count-btn plus" onclick="changeCount('rooms',1)">+</button>
-          </div>
-        </div>
-        <button class="dropdown-done" onclick="toggleTravellersDropdown()">Done</button>
-      </div>
     </div>
     <button class="search-btn" onclick="searchTrips()">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
