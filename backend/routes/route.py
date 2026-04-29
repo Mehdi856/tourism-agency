@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from services.search import search_trips
-from services.trip import visualize_trips, get_trip_details,get_local_trips, add_trip, calculate_cost, get_overview
+from services.trip import visualize_trips, get_trip_details,get_local_trips, add_trip, calculate_cost, get_overview,get_last_trip
 from services.booking import register_and_reserve, cancel_reservation, reserve, confirm_booking, get_reservation
 from models.models import fullregistration, Reservation, Trip
 from services.auth import authenticate_user, get_current_user
@@ -12,6 +12,11 @@ router = APIRouter()
 @router.get("/visual")
 async def get_v():
     return await visualize_trips()
+
+@router.get("/last_trips")
+async def grt_last():
+    return await get_last_trip()
+
 
 
 @router.get("/search_trips")

@@ -60,6 +60,89 @@ async function loadVisualTrips() {
   }
 }
 
+async function loadlastTrips() {
+  var container = document.querySelector("#deals-container")
+    if (!container) {
+    console.error("Container not found");
+    return;
+  }
+    container.innerHTML = skeletonCardHTML(4);
+
+  try {
+    var trips = await fetchlastTrips();
+    allTrips=trips || [];
+
+    if (trips && trips.length > 0) {
+      container.innerHTML = "";
+
+      trips.forEach(function(trip) {
+        const tripCard = document.createElement("div");
+        tripCard.className = "trip-card";
+
+        // Image
+        const image = document.createElement("img");
+        image.className = "trip-img";
+        image.src = trip.media[0];
+        image.alt = trip.name;
+        tripCard.appendChild(image);
+
+        // Body
+        const tripBody = document.createElement("div");
+        tripBody.className = "trip-body";
+
+        const tripType = document.createElement("div");
+        tripType.className = "trip-type";
+        tripType.textContent = trip.type ?? "Popular"; // adjust to your data shape
+        tripBody.appendChild(tripType);
+
+        const tripTitle = document.createElement("div");
+        tripTitle.className = "trip-title";
+        tripTitle.textContent = trip.name;
+        tripBody.appendChild(tripTitle);
+
+        const tripLocation = document.createElement("div");
+        tripLocation.className = "trip-location";
+        tripLocation.textContent = trip.country;
+        tripBody.appendChild(tripLocation);
+
+        // Footer
+        const tripFooter = document.createElement("div");
+        tripFooter.className = "trip-footer";
+
+        const tripPrice = document.createElement("div");
+        tripPrice.className = "trip-price";
+        tripPrice.innerHTML = `€${trip.price}<span>/ppt</span>`; // adjust to your data shape
+
+        const bookBtn = document.createElement("button");
+        bookBtn.className = "btn-book";
+        bookBtn.textContent = "Book Now";
+        bookBtn.value=trip.id
+        bookBtn.addEventListener("click", () => {
+          viewDetails(trip.id);
+        });
+
+        tripFooter.appendChild(tripPrice);
+        tripFooter.appendChild(bookBtn);
+        tripBody.appendChild(tripFooter);
+
+        tripCard.appendChild(tripBody);
+        container.appendChild(tripCard);
+      });
+
+      showToast("Last trips loaded successfully", "success", 2000);
+    } else {
+      container.innerHTML = '';
+      showToast("No last trips available", "info");
+    }
+  } catch (err) {
+    container.innerHTML = '';
+    showToast("Using offline data — backend is not connected", "warning", 5000);
+    console.warn("Could not load local trips from API:", err.message);
+  }
+
+  
+}
+
 async function loadLocalTrips() {
   var container = document.querySelector("#Local-trip");
 
@@ -242,4 +325,5 @@ function viewDetails(tripId) {
 document.addEventListener("DOMContentLoaded", function () {
   loadVisualTrips();
   loadLocalTrips();
+  loadlastTrips();
 });

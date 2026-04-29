@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from datetime import timedelta
+from datetime import datetime, timedelta
 from db.supabase import supabase
 from models.models import Trip
 
@@ -7,12 +7,15 @@ from models.models import Trip
 # Get all visual trips for frontend display
 async def visualize_trips():
     try:
+        today = datetime.now().date()
         resp = (
             supabase.table("trip")
             .select("*, hotel(*), outbound_flight(*), return_flight(*)")
             .eq("visual", True)
+            .gt("expired", today)
             .execute()
         )
+        
         return resp.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -46,16 +49,35 @@ async def get_trip_details(trip_id: int):
 async def get_local_trips():
     local="Algeria"
     try:
+        today = datetime.now().date()
         resp = (
             supabase.table("trip")
             .select("*, hotel(*), outbound_flight(*), return_flight(*)")
             .like("country", f"%{local}%")
+            .gt("expired", today)
             .execute()
         )
         return resp.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+async def get_last_trip():
+    try:
+        today = datetime.now().date().isoformat()  # ensure correct format
 
+        resp = (
+            supabase.table("trip")
+            .select("*, hotel(*), outbound_flight(*), return_flight(*)")
+            .gt("expired", today)          # filter first (optional but cleaner)
+            .order("id", desc=True)        # latest trips
+            .limit(10)                    # get 10 trips
+            .execute()
+        )
+
+        return resp.data
+
+    except Exception as e:
+        print("Error:", e)
+        return None
 
 # Add a new trip (admin only)
 async def add_trip(data: Trip):
