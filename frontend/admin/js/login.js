@@ -81,8 +81,8 @@
     setLoading(true);
 
     try {
-      // api.js: POST /admin/authenticate → stores token in localStorage
-      await login(usernameEl.value.trim(), passwordEl.value);
+     const userData = await login(usernameEl.value.trim(), passwordEl.value);
+     localStorage.setItem("username", userData.username);
       window.location.href = 'adminDash.html';
     } catch (err) {
       showError(err.message || 'Unable to connect. Please check your network and try again.');
