@@ -3,7 +3,9 @@
    js/index.js
    Depends on: api.js (loaded before this script)
    ============================================================ */
-var allTrips = [];
+var visualTrips = [];
+var localTrips =[];
+var lastTrips =[];
 async function loadVisualTrips() {
   var container = document.querySelector(".destinations-grid");
 
@@ -16,6 +18,7 @@ async function loadVisualTrips() {
 
   try {
     var trips = await fetchVisualTrips();
+    visualTrips=trips;
 
     if (trips && trips.length > 0) {
       container.innerHTML = "";
@@ -42,7 +45,7 @@ async function loadVisualTrips() {
         destcard.appendChild(destlable);
 
         destcard.addEventListener("click", function() {
-          goToDetails(trip.id);
+          viewDetails(trip.id,"visual");
         });
 
         container.appendChild(destcard);
@@ -70,7 +73,7 @@ async function loadlastTrips() {
 
   try {
     var trips = await fetchlastTrips();
-    allTrips=trips || [];
+    lastTrips=trips || [];
 
     if (trips && trips.length > 0) {
       container.innerHTML = "";
@@ -118,7 +121,7 @@ async function loadlastTrips() {
         bookBtn.textContent = "Book Now";
         bookBtn.value=trip.id
         bookBtn.addEventListener("click", () => {
-          viewDetails(trip.id);
+          viewDetails(trip.id,"last");
         });
 
         tripFooter.appendChild(tripPrice);
@@ -155,7 +158,7 @@ async function loadLocalTrips() {
 
   try {
     var trips = await fetchLocalTrips();
-    allTrips=trips || [];
+    localTrips=trips || [];
 
     if (trips && trips.length > 0) {
       container.innerHTML = "";
@@ -203,7 +206,7 @@ async function loadLocalTrips() {
         bookBtn.textContent = "Book Now";
         bookBtn.value=trip.id
         bookBtn.addEventListener("click", () => {
-          viewDetails(trip.id);
+          viewDetails(trip.id,"local");
         });
 
         tripFooter.appendChild(tripPrice);
@@ -306,17 +309,40 @@ document.querySelectorAll("section").forEach(function (section) {
     row.scrollLeft += scrollAmount;
   });
 });
-function viewDetails(tripId) {
+function viewDetails(tripId,where) {
   sessionStorage.removeItem("selectedTripId");
-  var trip = allTrips.find(function (t) {
-    return String(t.id) === String(tripId);
-  });
+  switch (where) {
+    case "visual":
+      var trip = visualTrips.find(function (t) {
+        return String(t.id) === String(tripId);
+      });
 
-  if (!trip) {
-    console.warn("Trip not found:", tripId);
-    return;
+      if (!trip) {
+        console.warn("Trip not found:", tripId);
+        return;
+      }
+      break;
+    case"local":
+      var trip = localTrips.find(function (t) {
+          return String(t.id) === String(tripId);
+        });
+
+        if (!trip) {
+          console.warn("Trip not found:", tripId);
+          return;
+        }
+      break;
+      case"last":
+            var trip = lastTrips.find(function (t) {
+            return String(t.id) === String(tripId);
+          });
+
+          if (!trip) {
+            console.warn("Trip not found:", tripId);
+            return;
+          }
+        break;
   }
-
   sessionStorage.setItem("selectedTrip", JSON.stringify(trip));
   window.location.href = "details.html";
 }
