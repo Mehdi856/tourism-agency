@@ -401,10 +401,7 @@
                 </div>
               </div>
               <div class="featured-actions">
-                <button class="action-btn" title="Edit" onclick="editPackage('${p.id}')">
-                  <span class="material-symbols-outlined">edit</span>
-                </button>
-                <button class="action-btn primary-action" title="Preview" onclick="previewPackage('${p.id}')">
+<button class="action-btn primary-action" title="Preview" onclick="previewPackage('${p.id}')">
                   <span class="material-symbols-outlined">visibility</span>
                 </button>
                 <button class="btn-primary" style="padding:10px 18px;font-size:13px;" onclick="manageBookings('${p.id}')">
@@ -444,6 +441,14 @@
               <p>Offer Expires</p>
               <p class="package-duration" style="font-size:14px;">${p.daysLeft}</p>
             </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px;">
+<button class="action-btn primary-action" title="Preview" onclick="previewPackage('${p.id}')">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+            <button class="btn-primary" style="padding:8px 14px;font-size:12px;" onclick="manageBookings('${p.id}')">
+              Manage Bookings
+            </button>
           </div>
         </div>
       </article>`;
@@ -570,16 +575,155 @@
     alert(`Edit package ${id} — connect to your edit form.`);
   };
 
-  window.previewPackage = function (id) {
-    window.location.href = `tripDetails.html?id=${id}`;
+  window.previewPackage = async function (id) {
+    let overlay = document.getElementById('previewModalOverlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'previewModalOverlay';
+      overlay.style.cssText = `
+        position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;
+        display:flex;align-items:center;justify-content:center;padding:20px;
+      `;
+      overlay.innerHTML = `
+        <div style="background:var(--surface);border-radius:24px;width:100%;max-width:680px;
+                    max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md);">
+          <div style="display:flex;justify-content:space-between;align-items:center;
+                      padding:28px 32px 0;margin-bottom:20px;">
+            <h2 id="previewModalTitle" style="font-size:20px;font-weight:800;color:var(--primary);">Package Preview</h2>
+            <button id="previewModalClose" style="background:none;border:none;cursor:pointer;
+                    font-size:22px;color:var(--outline);">✕</button>
+          </div>
+          <div id="previewModalBody" style="padding:0 32px 32px;"></div>
+        </div>`;
+      document.body.appendChild(overlay);
+      document.getElementById('previewModalClose').addEventListener('click', () => { overlay.style.display = 'none'; });
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.style.display = 'none'; });
+    }
+
+    overlay.style.display = 'flex';
+    document.getElementById('previewModalTitle').textContent = 'Package Preview';
+    document.getElementById('previewModalBody').innerHTML = '<p style="color:var(--outline);">Loading…</p>';
+
+    try {
+      const resp = await fetch(`${BASE_URL}/trip/${id}`, { headers: authHeaders() });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      const t    = json.Trip || json;
+
+      const price    = parsePrice(t.price);
+      const duration = parseDuration(t.date);
+      const expired  = t.expired
+        ? new Date(t.expired).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })
+        : '—';
+      const hotel = t.hotel             || {};
+      const ob    = t.outbound_flight   || {};
+      const ret   = t.return_flight     || {};
+      const stars = hotel.rating ? '★'.repeat(hotel.rating) + '☆'.repeat(5 - hotel.rating) : '—';
+      const img   = (t.media && t.media[0]) || hotel.img || '';
+
+      document.getElementById('previewModalTitle').textContent = t.name || 'Package Preview';
+      document.getElementById('previewModalBody').innerHTML = `
+        ${img ? `<img src="${img}" alt="${t.name}"
+          style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin-bottom:24px;"
+          onerror="this.style.display='none'"/>` : ''}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
+          <div style="background:var(--surface-container-low);border-radius:14px;padding:16px;">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--on-surface-variant);margin-bottom:4px;">Price</p>
+            <p style="font-size:22px;font-weight:800;color:var(--primary);">$${price.toLocaleString()}</p>
+          </div>
+          <div style="background:var(--surface-container-low);border-radius:14px;padding:16px;">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--on-surface-variant);margin-bottom:4px;">Duration</p>
+            <p style="font-size:22px;font-weight:800;color:var(--on-surface);">${duration} Days</p>
+          </div>
+          <div style="background:var(--surface-container-low);border-radius:14px;padding:16px;">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--on-surface-variant);margin-bottom:4px;">Offer Expires</p>
+            <p style="font-size:15px;font-weight:700;color:var(--on-surface);">${expired}</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+          <div>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);">Country</p>
+            <p style="font-size:14px;font-weight:600;color:var(--on-surface);margin-top:2px;">${t.country || '—'}</p>
+          </div>
+          <div>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);">Guests</p>
+            <p style="font-size:14px;font-weight:600;color:var(--on-surface);margin-top:2px;">${t.adults || 0} Adults · ${t.children || 0} Children · ${t.room || 0} Room(s)</p>
+          </div>
+          <div>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);">Available Places</p>
+            <p style="font-size:14px;font-weight:600;color:var(--on-surface);margin-top:2px;">${t.places ?? '—'}</p>
+          </div>
+          <div>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);">Visible on Homepage</p>
+            <p style="font-size:14px;font-weight:600;color:var(--on-surface);margin-top:2px;">${t.visual ? 'Yes' : 'No'}</p>
+          </div>
+        </div>
+
+        ${t.description ? `
+        <div style="margin-bottom:24px;">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);margin-bottom:6px;">Description</p>
+          <p style="font-size:13px;color:var(--on-surface-variant);line-height:1.6;white-space:pre-line;">${t.description}</p>
+        </div>` : ''}
+
+        <div style="background:var(--surface-container-low);border-radius:14px;padding:18px;margin-bottom:16px;">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);margin-bottom:10px;">🏨 Hotel</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Name</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${hotel.name || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Rating</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${stars}</p></div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface-container-low);border-radius:14px;padding:18px;margin-bottom:16px;">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);margin-bottom:10px;">✈ Outbound Flight</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Company</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ob.company || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Flight Code</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ob.flight_code || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">From → To</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ob.departure_location || '—'} → ${ob.arrival_location || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Time</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ob.departure_time || '—'} → ${ob.arrival_time || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Duration</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ob.duration || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Class</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ob.class || '—'}</p></div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface-container-low);border-radius:14px;padding:18px;">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);margin-bottom:10px;">✈ Return Flight</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Company</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ret.company || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Flight Code</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ret.flight_code || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">From → To</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ret.departure_location || '—'} → ${ret.arrival_location || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Time</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ret.departure_time || '—'} → ${ret.arrival_time || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Duration</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ret.duration || '—'}</p></div>
+            <div><p style="font-size:11px;color:var(--on-surface-variant);">Class</p><p style="font-size:14px;font-weight:600;color:var(--on-surface);">${ret.class || '—'}</p></div>
+          </div>
+        </div>`;
+    } catch (_) {
+      document.getElementById('previewModalBody').innerHTML =
+        '<p style="color:var(--error);">Could not load package details.</p>';
+    }
   };
 
   window.manageBookings = function (id) {
     window.location.href = `bookingMang.html?package=${id}`;
   };
 
+  /* ---- Current user ---- */
+  function loadCurrentUser() {
+    const username = localStorage.getItem('username') || 'Administrator';
+    const nameEl   = document.getElementById('sidebarName');
+    const roleEl   = document.getElementById('sidebarRole');
+    if (nameEl) nameEl.textContent = username;
+    if (roleEl) roleEl.textContent = 'Admin';
+
+    // Update avatar initials too
+    const avatarEl = document.querySelector('.avatar-initials');
+    if (avatarEl) avatarEl.textContent = username.slice(0, 2).toUpperCase();
+  }
+
   /* ---- Init ---- */
   document.addEventListener('DOMContentLoaded', () => {
+    loadCurrentUser();
     loadPackages();
   });
 
