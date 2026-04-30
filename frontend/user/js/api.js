@@ -77,7 +77,40 @@ async function registerAndReserve(data) {
   return _handleResponse(response);
 }
 /* ─────────────────────────────────────────────────────────────
-   4. RESERVE ONLY  (existing customer by email)
+   4. CAPTCHA: GET IMAGE
+      GET /captcha/
+      Returns: PNG image blob + X-Captcha-Token header
+      Usage: await loadCaptchaImage(document.getElementById("captcha-img"))
+   ───────────────────────────────────────────────────────────── */
+var _captchaToken = null;
+
+async function loadCaptchaImage(imgElement) {
+  var response = await fetch(API_BASE_URL + "/captcha");
+  if (!response.ok) throw new Error("Failed to load CAPTCHA image");
+  _captchaToken = response.headers.get("X-Captcha-Token");
+  var blob = await response.blob();
+  if (imgElement) imgElement.src = URL.createObjectURL(blob);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   5. CAPTCHA: VERIFY ANSWER
+      POST /captcha/verify
+      Body: { token, answer }
+      Returns: { ok: true, message } or throws on failure
+      Usage: await verifyCaptchaAnswer(userInputValue)
+   ───────────────────────────────────────────────────────────── */
+async function verifyCaptchaAnswer(answer) {
+  if (!_captchaToken) throw new Error("No CAPTCHA loaded — call loadCaptchaImage first");
+  var response = await fetch(API_BASE_URL + "/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: _captchaToken, answer: answer.trim().toUpperCase() })
+  });
+  return _handleResponse(response);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   6. RESERVE ONLY  (existing customer by email)
       POST /reserve
       Body: { email, trip_id }
       Returns: { message, transaction_code, customer_id }
@@ -277,4 +310,3 @@ function maxRoomsForAdults(numAdults) {
 function minRoomsForAdults(numAdults) {
   return Math.max(1, Math.ceil(numAdults / 2));
 }
-

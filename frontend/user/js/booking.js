@@ -363,36 +363,128 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var bookBtn = document.querySelector(".book-btn");
   if (bookBtn) bookBtn.addEventListener("click", handleBookNow);
+
+  /* ── CAPTCHA init — uses loadCaptchaImage() from api.js ── */
+  var captchaImg = document.getElementById("captcha-img");
+  loadCaptchaImage(captchaImg).catch(function () {
+    _showToast("Could not load security check", "error");
+  });
+
+  var refreshBtn = document.getElementById("refresh-captcha-btn");
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", function () {
+      document.getElementById("captcha-input").value = "";
+      clearFieldError(document.getElementById("captcha-input"));
+      loadCaptchaImage(captchaImg).catch(function () {
+        _showToast("Could not refresh security check", "error");
+      });
+    });
+  }
+
+  if (captchaImg) {
+    captchaImg.addEventListener("click", function () {
+      if (refreshBtn) refreshBtn.click();
+    });
+  }
 });
 
-function handleBookNow() {
-  var fullname  = document.getElementById("firstName").value.trim() + " " + document.getElementById("lastName").value.trim();
-  var email     = document.getElementById("email").value.trim();
-  var phone     = document.getElementById("phone").value.trim();
-  var birthdate = document.getElementById("dob").value; // FIX: was "age"
-  var tripId    = currentTripId;
+/* ── "Book Now" handler ── */
+async function handleBookNow() {
+  var firstName    = document.getElementById("firstName");
+  var lastName     = document.getElementById("lastName");
+  var email        = document.getElementById("email");
+  var phone        = document.getElementById("phone");
+  var dob          = document.getElementById("dob");
+  var captchaInput = document.getElementById("captcha-input");
 
-  // Basic validation (can be expanded)
-  if (!fullname.trim() || !email) {
-    alert("Please enter your full name and email.");
+  var valid = true;
+
+  [firstName, lastName, email, phone, dob, captchaInput].forEach(function (inp) {
+    if (inp) clearFieldError(inp);
+  });
+
+  if (!firstName || !firstName.value.trim()) {
+    showFieldError(firstName, "First name is required");
+    valid = false;
+  }
+
+  if (!lastName || !lastName.value.trim()) {
+    showFieldError(lastName, "Last name is required");
+    valid = false;
+  }
+
+  if (!email || !email.value.trim()) {
+    showFieldError(email, "Email is required");
+    valid = false;
+  } else if (!validateEmail(email.value.trim())) {
+    showFieldError(email, "Please enter a valid email address");
+    valid = false;
+  }
+
+  if (phone && phone.value.trim()) {
+    if (!validatePhone(phone.value.trim())) {
+      showFieldError(phone, "Phone must be 8–15 digits (e.g. +213 555 000 000)");
+      valid = false;
+    }
+  }
+
+  if (dob && dob.value) {
+    if (!validateDob(dob.value)) {
+      showFieldError(dob, "Please enter a valid date of birth");
+      valid = false;
+    }
+  }
+
+  /* ── CAPTCHA field presence check ── */
+  if (!captchaInput || !captchaInput.value.trim()) {
+    showFieldError(captchaInput, "Please enter the security code");
+    valid = false;
+  }
+
+  if (!valid) {
+    _showToast("Please fix the highlighted errors", "error");
     return;
   }
-var person = {
-    "fullname": fullname,
-    "phonnum": phone,
-    "email": email,
-    "birthdate": birthdate,
-    "trip_id": tripId,
-    "confirmation": false
-}
-  registerAndReserve(person)
-    .then(function (result) {
-      alert("Booking confirmed! Transaction code: " + result.transaction_code);
-      // Redirect to payment page with necessary info
-      window.location.href = "payment.html?transaction_code=" + encodeURIComponent(result.transaction_code) + "&trip_id=" + tripId;
-    })
-    .catch(function (err) {
-      console.error("Booking failed:", err);
-      alert("Booking failed: " + err.message);
-    });
+
+  /* ── Verify CAPTCHA with backend — uses verifyCaptchaAnswer() from api.js ── */
+  try {
+    await verifyCaptchaAnswer(captchaInput.value);
+  } catch (err) {
+    showFieldError(captchaInput, err.message || "Wrong code, try again");
+    _showToast("Security check failed — please try again", "error");
+    captchaInput.value = "";
+    loadCaptchaImage(document.getElementById("captcha-img")).catch(function () {});
+    return;
+  }
+
+  /* ── CAPTCHA passed — proceed with booking ── */
+  var fullname  = (firstName.value.trim() + " " + lastName.value.trim()).trim();
+  var birthdate = (dob && dob.value) ? dob.value : "2000-01-01";
+
+  if (currentTripId) {
+    try {
+      var result = await registerAndReserve({
+        fullname:  fullname,
+        phonnum:   phone ? phone.value.trim() : "",
+        email:     email.value.trim(),
+        birthdate: birthdate,
+        trip_id:   currentTripId
+      });
+
+      _showToast("Booking confirmed! Redirecting to payment...", "success");
+
+      setTimeout(function () {
+        window.location.href = "payment.html"
+          + "?transaction_code=" + encodeURIComponent(result.transaction_code)
+          + "&trip_id="  + currentTripId
+          + "&price="    + (currentPrice || 0)
+          + "&name="     + encodeURIComponent(currentTripName || "Trip");
+      }, 1000);
+      return;
+
+    } catch (err) {
+      console.warn("Booking API failed:", err.message);
+      _showToast("Booking failed: " + err.message, "error");
+    }
+  }
 }

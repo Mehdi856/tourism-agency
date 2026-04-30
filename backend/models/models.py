@@ -65,3 +65,7 @@ class fullregistration(BaseModel):
     birthdate: date
     trip_id: int
     confirmation: bool = False
+
+class VerifyRequest(BaseModel):
+    token: str
+    answer: str

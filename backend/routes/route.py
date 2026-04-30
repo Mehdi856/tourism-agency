@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Response
 from services.search import search_trips
 from services.trip import visualize_trips, get_trip_details,get_local_trips, add_trip, calculate_cost, get_overview,get_last_trip
 from services.booking import register_and_reserve, cancel_reservation, reserve, confirm_booking, get_reservation
-from models.models import fullregistration, Reservation, Trip
+from models.models import fullregistration, Reservation, Trip,VerifyRequest
 from services.auth import authenticate_user, get_current_user
+from services.captcha import create_captcha, verify_captcha
 
 
 router = APIRouter()
@@ -95,3 +96,20 @@ async def get_overview_endpoint(current_user: dict = Depends(get_current_user)):
         "res": await get_overview(),
         "User": current_user["sub"]
     }
+
+
+@router.get("/captcha")
+def get_captcha():
+    token, image_bytes = create_captcha()
+    return Response(
+        content=image_bytes,
+        media_type="image/png",
+        headers={"X-Captcha-Token": token,
+                 "Access-Control-Expose-Headers": "X-Captcha-Token"}
+    )
+
+@router.post("/verify")
+def verify(body: VerifyRequest):
+    if not verify_captcha(body.token, body.answer):
+        raise HTTPException(status_code=400, detail="Invalid or expired captcha")
+    return {"ok": True, "message": "Verified!"}
