@@ -472,14 +472,6 @@ async function handleBookNow() {
       });
 
       _showToast("Booking confirmed! Redirecting to payment...", "success");
-
-      setTimeout(function () {
-        window.location.href = "payment.html"
-          + "?transaction_code=" + encodeURIComponent(result.transaction_code)
-          + "&trip_id="  + currentTripId
-          + "&price="    + (currentPrice || 0)
-          + "&name="     + encodeURIComponent(currentTripName || "Trip");
-      }, 1000);
       return;
 
     } catch (err) {
