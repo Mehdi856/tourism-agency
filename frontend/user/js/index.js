@@ -330,7 +330,7 @@ document.querySelectorAll("section").forEach(function (section) {
   });
 });
 function viewDetails(tripId,where) {
-  sessionStorage.removeItem("selectedTripId");
+  sessionStorage.removeItem("selectedTrip");
   switch (where) {
     case "visual":
       var trip = visualTrips.find(function (t) {
