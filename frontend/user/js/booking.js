@@ -470,9 +470,9 @@ async function handleBookNow() {
         birthdate: birthdate,
         trip_id:   currentTripId
       });
-
-      _showToast("Booking confirmed! Redirecting to payment...", "success");
+      _showToast("waiting the email");
       return;
+      window.location.href = "index.html";
 
     } catch (err) {
       console.warn("Booking API failed:", err.message);
