@@ -48,7 +48,7 @@
           <p class="booking-dest-name">${b.trip_name || '—'}</p>
           <p class="booking-dest-sub">${b.country || ''}</p>
         </td>
-        <td class="booking-date">—</td>
+        <td class="booking-date">${b.created_at ? new Date(b.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—'}</td>
         <td>
           <span class="badge ${statusCls}">
             <span class="badge-dot"></span>
@@ -120,7 +120,19 @@
   function renderTable() {
     const tbody = document.getElementById('bookingsTbody');
 
-    let filtered = state.allBookings;
+    let filtered = [...state.allBookings];
+
+    // Sort
+    const sortVal = document.getElementById('sortSelect')?.value || 'date-desc';
+    if (sortVal === 'date-desc') {
+      filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    } else if (sortVal === 'date-asc') {
+      filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+    } else if (sortVal === 'revenue-desc') {
+      filtered.sort((a, b) => (b.revenue ?? 0) - (a.revenue ?? 0));
+    } else if (sortVal === 'revenue-asc') {
+      filtered.sort((a, b) => (a.revenue ?? 0) - (b.revenue ?? 0));
+    }
 
     // Filter by status
     if (state.filter === 'confirmed') filtered = filtered.filter(b => b.confirmed);

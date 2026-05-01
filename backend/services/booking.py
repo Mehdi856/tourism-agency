@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 import random
 import string
+from datetime import datetime, timezone
 from types import SimpleNamespace
 from db.supabase import supabase
 from models.models import fullregistration, Reservation, Customer
@@ -64,6 +65,7 @@ async def register_and_reserve(data: fullregistration):
             "trip_id": data.trip_id,
             "confirmation": False,
             "transaction_code": transaction_code,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }).execute()
 
         supabase.table("trip").update({"places": trip["places"] - 1}).eq("id", data.trip_id).execute()
@@ -120,6 +122,7 @@ async def reserve(data: Reservation):
             "trip_id": data.trip_id,
             "confirmation": False,
             "transaction_code": transaction_code,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }).execute()
 
         supabase.table("trip").update({"places": trip["places"] - 1}).eq("id", data.trip_id).execute()

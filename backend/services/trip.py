@@ -251,9 +251,9 @@ async def get_overview():
             reverse=True
         )[:5]
 
-        # --- Recent bookings (last 5) ---
+        # --- Recent bookings (all, sorted by created_at desc) ---
         recent_bookings = []
-        for r in reservations[-5:][::-1]:
+        for r in reservations:
             customer = r.get("customer") or {}
             trip = r.get("trip") or {}
             raw_price = str(trip.get("price") or "0").replace("$", "").replace(",", "").strip()
@@ -265,7 +265,10 @@ async def get_overview():
                 "country": trip.get("country", "—"),
                 "confirmed": r["confirmation"],
                 "revenue": float(raw_price),
+                "created_at": r.get("created_at"),
             })
+
+        recent_bookings.sort(key=lambda x: x["created_at"] or "0000-00-00T00:00:00+00:00", reverse=True)
 
         return {
             "total_revenue": total_revenue,
