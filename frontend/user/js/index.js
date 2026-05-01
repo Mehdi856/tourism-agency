@@ -273,10 +273,30 @@ async function toggleTravellersDropdown() {
 function changeCount(type, delta) {
   var countEl = document.getElementById("count-" + type);
   if (!countEl) return;
+  var travellerInput = document.getElementById("inp-travellers");
 
   var currentCount = parseInt(countEl.textContent);
   var newCount = Math.max(0, currentCount + delta);
   countEl.textContent = newCount;
+
+  if (travellerInput) {
+    var adults = parseInt(document.getElementById("count-adults").textContent) || 0;
+    var children = parseInt(document.getElementById("count-children").textContent) || 0;
+    var rooms = parseInt(document.getElementById("count-rooms").textContent) || 0;
+    var parts = [];
+
+    if (adults > 0) {
+      parts.push(adults + " adult" + (adults !== 1 ? "s" : ""));
+    }
+    if (children > 0) {
+      parts.push(children + " child" + (children !== 1 ? "ren" : ""));
+    }
+    if (rooms > 0) {
+      parts.push(rooms + " room" + (rooms !== 1 ? "s" : ""));
+    }
+
+    travellerInput.placeholder = parts.length ? parts.join(", ") : "Add travellers";
+  }
 }
 
 document.querySelectorAll("section").forEach(function (section) {
