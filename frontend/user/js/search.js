@@ -395,6 +395,7 @@ function changeCount(type, delta) {
 
 
 function viewDetails(tripId) {
+  sessionStorage.removeItem("selectedTrip");
   var trip = allTrips.find(function (t) {
     return String(t.id) === String(tripId);
   });
