@@ -6,8 +6,7 @@
 (function () {
   'use strict';
 
-  // const BASE_URL = 'https://tourism-agency-backend.onrender.com';
-  const BASE_URL = 'http://localhost:8000';
+  const BASE_URL = 'https://tourism-agency-backend.onrender.com'; 
   const token = localStorage.getItem('access_token') || '';
 
   /* ---- Auth header for admin endpoints ---- */

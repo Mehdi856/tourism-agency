@@ -9,6 +9,12 @@ var currentFilters = {
 
 // ── Boot ───────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", function () {
+  // Set initial price range labels to DA
+  var initMin = document.getElementById("price-min-label");
+  var initMax = document.getElementById("price-max-label");
+  if (initMin) initMin.textContent = "0 DA";
+  if (initMax) initMax.textContent = "20 000 DA+";
+
   var params = JSON.parse(sessionStorage.getItem("searchParams"));
   var trips  = JSON.parse(sessionStorage.getItem("searchResults"));
 
@@ -265,10 +271,17 @@ function renderTrips(data) {
   }
 
   function parseDates(dateRange) {
-    if (!dateRange) return { checkin: "–", checkout: "–" };
+    if (!dateRange) return { checkin: "–", checkout: "–", nights: null };
     var clean = dateRange.replace(/[\[\]\(\)]/g, "");
     var parts = clean.split(",");
-    return { checkin: parts[0] || "–", checkout: parts[1] || "–" };
+    var start = parts[0] ? new Date(parts[0].trim()) : null;
+    var end   = parts[1] ? new Date(parts[1].trim()) : null;
+    var fmt = function(d) {
+      if (!d || isNaN(d)) return "–";
+      return d.toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
+    };
+    var nights = (start && end) ? Math.round((end - start) / 86400000) : null;
+    return { checkin: fmt(start), checkout: fmt(end), nights: nights };
   }
 
   function getStars(rating) {
@@ -283,6 +296,10 @@ function renderTrips(data) {
     var dates = parseDates(item.date);
     var img   = (item.media && item.media.length > 0) ? item.media[0] : "placeholder.jpg";
     var hotel = item.hotel || {};
+    var price = parseFloat(String(item.price).replace(/[^0-9.]/g, ""));
+    var priceFormatted = price.toLocaleString("fr-DZ") + " DA";
+    var nightsLabel = dates.nights ? dates.nights + " night" + (dates.nights > 1 ? "s" : "") : "";
+    var placesLabel = item.places > 0 ? "📍 " + item.places + " places to visit" : "";
 
     return ''
       + '<div class="experience-card" style="animation-delay:' + (i * 0.06) + 's">'
@@ -297,21 +314,22 @@ function renderTrips(data) {
             + '<div class="info-box">'
               + '<div class="info-segment"><div class="info-seg-label">Country</div><div class="info-seg-value">' + item.country + '</div></div>'
               + '<div class="info-segment"><div class="info-seg-label">Hotel</div><div class="info-seg-value blue">' + (hotel.name || "N/A") + '</div><div class="rating-stars">' + getStars(hotel.rating || 0) + '</div></div>'
-              + '<div class="info-segment"><div class="info-seg-label">Price</div><div class="info-seg-value blue">' + parseFloat(String(item.price).replace(/[^0-9.]/g,"")).toLocaleString("fr-DZ") + " DA" + '</div><div style="font-size:10px;color:var(--muted)">' + travStr + '</div></div>'
+              + '<div class="info-segment"><div class="info-seg-label">Price</div><div class="info-seg-value blue">' + priceFormatted + '</div><div style="font-size:10px;color:var(--muted)">' + travStr + '</div></div>'
             + '</div>'
           + '</div>'
           + '<div class="card-meta">'
-            + '<div class="meta-item">📅 ' + dates.checkin + ' → ' + dates.checkout + '</div>'
-            + '<div class="meta-item">👥 ' + item.adults + ' adults · ' + item.children + ' children · ' + item.room + ' room(s)</div>'
-            + '<div class="meta-item">📍 ' + item.places + ' places to visit</div>'
+            + '<div class="meta-item meta-date">📅 ' + dates.checkin + ' → ' + dates.checkout + (nightsLabel ? ' &nbsp;·&nbsp; ' + nightsLabel : '') + '</div>'
+            + '<div class="meta-item meta-people">👥 ' + travStr + ' · ' + item.room + ' room' + (item.room > 1 ? 's' : '') + '</div>'
+            + (placesLabel ? '<div class="meta-item meta-places">' + placesLabel + '</div>' : '')
           + '</div>'
-          + '<div class="card-body">'
-            + '<p style="font-size:13px;color:var(--muted)">' + item.description + '</p>'
+          + '<div class="card-desc">'
+            + '<p style="font-size:13px;color:var(--muted);margin:0;line-height:1.6;">' + (item.description || "") + '</p>'
           + '</div>'
           + '<div class="card-footer">'
             + '<div class="price-wrap">'
-              + '<div class="price-main">' + parseFloat(String(item.price).replace(/[^0-9.]/g,"")).toLocaleString("fr-DZ") + " DA" + '</div>'
-              + '<div class="price-sub">for ' + travStr + '</div>'
+              + '<div class="price-from">Total price</div>'
+              + '<div class="price-main">' + priceFormatted + '</div>'
+              + '<div class="price-sub">for ' + travStr + (nightsLabel ? ' · ' + nightsLabel : '') + '</div>'
             + '</div>'
             + '<button class="view-btn" onclick="viewDetails(' + item.id + ')">View Details →</button>'
           + '</div>'
