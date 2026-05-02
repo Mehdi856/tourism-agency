@@ -28,10 +28,10 @@ function parsePrice(priceStr) {
  */
 function _formatEUR(amount) {
   if (typeof formatEUR === "function") return formatEUR(amount);
-  return "\u20ac" + Number(amount).toLocaleString("en-GB", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
+  return Number(amount).toLocaleString("fr-DZ", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }) + " DA";
 }
 
 /**

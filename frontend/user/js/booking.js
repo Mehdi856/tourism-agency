@@ -107,7 +107,7 @@ function loadTripContext() {
   var priceEl = document.getElementById("booking-price");
   if (priceEl) {
     priceEl.textContent = currentPrice
-      ? (typeof formatEUR === "function" ? formatEUR(currentPrice) : "\u20ac" + currentPrice.toLocaleString())
+      ? (typeof formatEUR === "function" ? formatEUR(currentPrice) : Number(currentPrice).toLocaleString('fr-DZ') + ' DA')
       : "\u20ac\u2014";
   }
 

@@ -163,7 +163,7 @@ async function verifyCaptchaAnswer(answer) {
    Output: "€4,850"
    ───────────────────────────────────────────────────────────── */
 function formatEUR(amount) {
-  return "€" + amount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return parseFloat(amount).toLocaleString("fr-DZ", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " DA";
 }
 
 /* ─────────────────────────────────────────────────────────────

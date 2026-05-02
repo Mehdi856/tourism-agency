@@ -79,8 +79,8 @@ function onRangeInput() {
   // Update labels
   var minLabel = document.getElementById("price-min-label");
   var maxLabel = document.getElementById("price-max-label");
-  if (minLabel) minLabel.textContent = "€" + minVal.toLocaleString();
-  if (maxLabel) maxLabel.textContent = maxVal >= 20000 ? "€20,000+" : "€" + maxVal.toLocaleString();
+  if (minLabel) minLabel.textContent = minVal.toLocaleString("fr-DZ") + " DA";
+  if (maxLabel) maxLabel.textContent = maxVal >= 20000 ? "20 000 DA+" : maxVal.toLocaleString("fr-DZ") + " DA";
 
   currentFilters.priceMin = minVal;
   currentFilters.priceMax = maxVal;
@@ -183,9 +183,9 @@ function renderActiveTags() {
 
   // Price tag (only if not at defaults)
   if (currentFilters.priceMin > 0 || currentFilters.priceMax < 20000) {
-    var maxLabel = currentFilters.priceMax >= 20000 ? "€20,000+" : "€" + currentFilters.priceMax.toLocaleString();
+    var maxLabel = currentFilters.priceMax >= 20000 ? "20 000 DA+" : currentFilters.priceMax.toLocaleString("fr-DZ") + " DA";
     tags.push({
-      label: "€" + currentFilters.priceMin.toLocaleString() + " – " + maxLabel,
+      label: currentFilters.priceMin.toLocaleString("fr-DZ") + " DA – " + maxLabel,
       clear: "clearPriceFilter"
     });
   }
@@ -218,8 +218,8 @@ function clearPriceFilter() {
   if (maxEl) maxEl.value = 20000;
   var minLabel = document.getElementById("price-min-label");
   var maxLabel = document.getElementById("price-max-label");
-  if (minLabel) minLabel.textContent = "€0";
-  if (maxLabel) maxLabel.textContent = "€20,000+";
+  if (minLabel) minLabel.textContent = "0 DA";
+  if (maxLabel) maxLabel.textContent = "20 000 DA+";
   updateSliderFill();
   applyFilters();
 }
@@ -297,7 +297,7 @@ function renderTrips(data) {
             + '<div class="info-box">'
               + '<div class="info-segment"><div class="info-seg-label">Country</div><div class="info-seg-value">' + item.country + '</div></div>'
               + '<div class="info-segment"><div class="info-seg-label">Hotel</div><div class="info-seg-value blue">' + (hotel.name || "N/A") + '</div><div class="rating-stars">' + getStars(hotel.rating || 0) + '</div></div>'
-              + '<div class="info-segment"><div class="info-seg-label">Price</div><div class="info-seg-value blue">' + item.price + '</div><div style="font-size:10px;color:var(--muted)">' + travStr + '</div></div>'
+              + '<div class="info-segment"><div class="info-seg-label">Price</div><div class="info-seg-value blue">' + parseFloat(String(item.price).replace(/[^0-9.]/g,"")).toLocaleString("fr-DZ") + " DA" + '</div><div style="font-size:10px;color:var(--muted)">' + travStr + '</div></div>'
             + '</div>'
           + '</div>'
           + '<div class="card-meta">'
@@ -310,7 +310,7 @@ function renderTrips(data) {
           + '</div>'
           + '<div class="card-footer">'
             + '<div class="price-wrap">'
-              + '<div class="price-main">' + item.price + '</div>'
+              + '<div class="price-main">' + parseFloat(String(item.price).replace(/[^0-9.]/g,"")).toLocaleString("fr-DZ") + " DA" + '</div>'
               + '<div class="price-sub">for ' + travStr + '</div>'
             + '</div>'
             + '<button class="view-btn" onclick="viewDetails(' + item.id + ')">View Details →</button>'

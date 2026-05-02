@@ -6,7 +6,8 @@
 (function () {
   'use strict';
 
-  const BASE_URL = 'https://tourism-agency-backend.onrender.com';
+  // const BASE_URL = 'https://tourism-agency-backend.onrender.com';
+  const BASE_URL = 'http://localhost:8000';
   const token = localStorage.getItem('access_token') || '';
 
   /* ---- Auth header for admin endpoints ---- */
@@ -123,7 +124,7 @@
             <textarea id="f_descripiton" rows="3" placeholder="Describe the trip…" style="width:100%;margin-top:4px;resize:vertical;" class="form-input"></textarea>
           </div>
           <div>
-            <label style="font-size:12px;font-weight:600;color:var(--on-surface-variant);">Price per person ($)</label>
+            <label style="font-size:12px;font-weight:600;color:var(--on-surface-variant);">Price per person (DA)</label>
             <input id="f_price" type="number" placeholder="4850" style="width:100%;margin-top:4px;" class="form-input"/>
           </div>
           <div>
@@ -389,7 +390,7 @@
               <div class="package-price-row">
                 <div class="package-price-block">
                   <p>Price</p>
-                  <p class="package-price">$${p.price.toLocaleString()}</p>
+                  <p class="package-price">${p.price.toLocaleString("fr-DZ")} DA</p>
                 </div>
                 <div class="package-duration-block">
                   <p>Trip Duration</p>
@@ -431,7 +432,7 @@
           <div class="package-price-row" style="margin-top:18px;">
             <div class="package-price-block">
               <p>Price</p>
-              <p class="package-price" style="font-size:22px;">$${p.price.toLocaleString()}</p>
+              <p class="package-price" style="font-size:22px;">${p.price.toLocaleString("fr-DZ")} DA</p>
             </div>
             <div class="package-duration-block">
               <p>Trip Duration</p>
@@ -630,7 +631,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
           <div style="background:var(--surface-container-low);border-radius:14px;padding:16px;">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--on-surface-variant);margin-bottom:4px;">Price</p>
-            <p style="font-size:22px;font-weight:800;color:var(--primary);">$${price.toLocaleString()}</p>
+            <p style="font-size:22px;font-weight:800;color:var(--primary);">${price.toLocaleString("fr-DZ")} DA</p>
           </div>
           <div style="background:var(--surface-container-low);border-radius:14px;padding:16px;">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--on-surface-variant);margin-bottom:4px;">Duration</p>

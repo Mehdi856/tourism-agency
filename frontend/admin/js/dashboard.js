@@ -11,7 +11,7 @@
   let lastOverviewData = null;
 
   function currency(value) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+    return new Intl.NumberFormat('fr-DZ', { maximumFractionDigits: 0 }).format(value) + ' DA';
   }
 
   /* ============================================================

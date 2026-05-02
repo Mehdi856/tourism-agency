@@ -114,7 +114,7 @@ async function loadlastTrips() {
 
         const tripPrice = document.createElement("div");
         tripPrice.className = "trip-price";
-        tripPrice.innerHTML = `€${trip.price}<span>/ppt</span>`; // adjust to your data shape
+        tripPrice.innerHTML = `${parseFloat(String(trip.price).replace(/[^0-9.]/g,"")).toLocaleString("fr-DZ")} DA<span>/ppt</span>`; // adjust to your data shape
 
         const bookBtn = document.createElement("button");
         bookBtn.className = "btn-book";
@@ -199,7 +199,7 @@ async function loadLocalTrips() {
 
         const tripPrice = document.createElement("div");
         tripPrice.className = "trip-price";
-        tripPrice.innerHTML = `€${trip.price}<span>/ppt</span>`; // adjust to your data shape
+        tripPrice.innerHTML = `${parseFloat(String(trip.price).replace(/[^0-9.]/g,"")).toLocaleString("fr-DZ")} DA<span>/ppt</span>`; // adjust to your data shape
 
         const bookBtn = document.createElement("button");
         bookBtn.className = "btn-book";
